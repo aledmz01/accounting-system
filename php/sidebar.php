@@ -40,11 +40,11 @@
 
 			<div class="panel-body" id="sb">
 				<div class="list-group text-right">
+                    <a href="inventario.php" class="list-group-item">&#0171; Inventario</a>
 					<a href="catalogo-cuentas.php" class="list-group-item">&#0171; Catálogo General de Cuentas</a>		            
 				</div>
 			</div>
 		</div>
-
 		<div class="panel panel-primary">
 			<div class="panel-heading">
 				<h3 class="panel-title text-center">Estados Financieros</h3>
