@@ -37,7 +37,7 @@
 		};
 	</script>
 
-	<title>C.A.S | SIC115</title>
+	<title>Mini Market el ahorro | SIC115</title>
 </head>
 
 <body>
@@ -56,7 +56,7 @@
 		?>
 
 		<div class="jumbotron text-center">
-			<h1>Bienvenido a C.A.S</h1>
+			<h1>Bienvenido a Mini Market el ahorro</h1>
 			<p>
 				Para utilizar todas las funciones del sistema, usted deberá iniciar sesión previamente. Ingrese sus datos de inicio de sesión y luego pulse el botón "Iniciar sesión" para acceder al sistema.
 			</p>

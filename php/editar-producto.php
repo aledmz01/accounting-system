@@ -4,40 +4,43 @@ include("sesion.php");
 
 if(!$_COOKIE["sesion"]){
     header("Location: salir.php");
+    exit();
 }
 
 include("conexion.php");
 
-$id = $_GET["id"];
+$id = (int)($_GET["id"] ?? 0);
 
 $consulta = "
 SELECT *
-FROM Inventario
-WHERE id_inventario='$id'
+FROM inventario
+WHERE id_inventario = '$id'
 ";
 
 $resultado = $conexion->query($consulta);
+
+if($resultado->num_rows == 0){
+    header("Location: inventario.php");
+    exit();
+}
+
 $producto = $resultado->fetch_assoc();
 
 if($_POST){
 
-    $nombre = $_POST["nombre"];
-    $cantidad = $_POST["cantidad"];
-    $precio = $_POST["precio"];
+    $nombre = trim($_POST["nombre"]);
+    $precio = (float)$_POST["precio"];
 
-    $actualizar = "
-    UPDATE Inventario
-    SET
-        nombre='$nombre',
-        cantidad='$cantidad',
-        precio='$precio'
-    WHERE
-        id_inventario='$id'
-    ";
-
-    $conexion->query($actualizar);
+    $conexion->query("
+        UPDATE inventario
+        SET
+            nombre = '$nombre',
+            precio = '$precio'
+        WHERE id_inventario = '$id'
+    ");
 
     header("Location: inventario.php");
+    exit();
 }
 
 ?>
@@ -69,42 +72,52 @@ if($_POST){
 
             <div class="form-group">
                 <label>Nombre del Producto</label>
-
                 <input
                     type="text"
                     name="nombre"
                     class="form-control"
-                    value="<?php echo $producto['nombre']; ?>"
-                    required>
+                    required
+                    value="<?php echo htmlspecialchars($producto["nombre"]); ?>"
+                >
             </div>
 
             <div class="form-group">
-                <label>Cantidad</label>
-
-                <input
-                    type="number"
-                    name="cantidad"
-                    class="form-control"
-                    value="<?php echo $producto['cantidad']; ?>"
-                    required>
-            </div>
-
-            <div class="form-group">
-                <label>Precio</label>
-
+                <label>Precio de Venta ($)</label>
                 <input
                     type="number"
                     step="0.01"
+                    min="0"
                     name="precio"
                     class="form-control"
-                    value="<?php echo $producto['precio']; ?>"
-                    required>
+                    required
+                    value="<?php echo $producto["precio"]; ?>"
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Cantidad en Inventario</label>
+                <input
+                    type="number"
+                    class="form-control"
+                    value="<?php echo $producto["cantidad"]; ?>"
+                    readonly
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Costo Unitario</label>
+                <input
+                    type="number"
+                    class="form-control"
+                    value="<?php echo $producto["costo"]; ?>"
+                    readonly
+                >
             </div>
 
             <br>
 
             <button class="btn btn-warning">
-                Actualizar Producto
+                Guardar Cambios
             </button>
 
             <a href="inventario.php" class="btn btn-default">

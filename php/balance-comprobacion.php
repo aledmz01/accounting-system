@@ -77,7 +77,7 @@
 									$ejecutar = $conexion->query($sql);
 									while($regs = $ejecutar->fetch_assoc()){
 										echo "<tr>";
-										echo "<td>".utf8_encode($regs["nombre_cuenta"])."</td>";
+										echo "<td>".$regs["nombre_cuenta"]."</td>";
 										if($regs["saldo_debe"]==0){
 											echo "<td></td>";
 										} else {

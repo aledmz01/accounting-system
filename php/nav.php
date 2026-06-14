@@ -29,6 +29,7 @@
 					<ul class="dropdown-menu">
 						<li class="divider"></li>
 						<li><a href="catalogo-cuentas.php">● &nbsp;Catálogo General de Cuentas</a></li>
+                        <li><a href="inventario.php">● &nbsp;Inventario</a></li>
 					</ul>
 				</li>
 
@@ -44,7 +45,6 @@
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Acerca <b class="caret"></b></a>
 					<ul class="dropdown-menu">
-						<li><a href="#acerca" data-toggle="modal"><span class="glyphicon glyphicon-info-sign"></span> &nbsp;Acerca de Mini Market el ahorro</a></li>
 						<li><a href="#creditos" data-toggle="modal"><span class="glyphicon glyphicon-flash"></span>&nbsp; Sobre los programadores</a></li>
 					</ul>
 				</li>
@@ -55,7 +55,6 @@
 						<b class="caret"></b>
 					</a>
 					<ul class="dropdown-menu">
-						<li><a href="cambio-pw.php"><span class="glyphicon glyphicon-lock"></span> &nbsp;Cambiar Contraseña</a></li>
 						<li><a href="#logout" data-toggle="modal"><span class="glyphicon glyphicon-log-out"></span> &nbsp;Cerrar sesión</a></li>
 					</ul>
 				</li>

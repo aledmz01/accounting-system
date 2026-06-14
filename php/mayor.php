@@ -48,8 +48,8 @@
     $sql = "SELECT * FROM cuentas";
     $ejecutar_consulta = $conexion->query($sql);
     while($regs = $ejecutar_consulta->fetch_assoc()){
-        actualizarCuentas($conexion, $regs["codigo_cuenta"]);
-        saldosCuentas($conexion, $regs["codigo_cuenta"]);
+       // actualizarCuentas($conexion, $regs["codigo_cuenta"]);
+       // saldosCuentas($conexion, $regs["codigo_cuenta"]);
     }
     ?>
 
@@ -83,20 +83,16 @@
         						if(!isset($conexion)){
         							include("conexion.php");
         						}
-        						$sql = "SELECT DISTINCTROW(cuenta) cuentas FROM registro";
-        						$ejecutar_consulta = $conexion->query($sql);
-        						while($registro = $ejecutar_consulta->fetch_assoc()){
-        							actualizarCuentas($conexion, $registro["cuentas"]);
-        						}
         						$sql = "SELECT * FROM cuentas";
-        						$ejecutar_consulta = $conexion->query($sql);
-        						while($regs = $ejecutar_consulta->fetch_assoc()){
-        							echo "<tr>";
-        							echo "<td>".$regs["codigo_cuenta"]." - ".utf8_encode($regs["nombre_cuenta"])."</td>";
-        							echo "<td align='right'>".number_format($regs["saldo_debe"],2)."</td>";
-        							echo "<td align='right'>".number_format($regs["saldo_haber"],2)."</td>";
-        							echo "</tr>";
-        						}
+$ejecutar_consulta = $conexion->query($sql);
+echo "Cantidad de cuentas: ".$ejecutar_consulta->num_rows;
+while($regs = $ejecutar_consulta->fetch_assoc()){
+    echo "<tr>";
+    echo "<td>".$regs["codigo_cuenta"]." - ".utf8_encode($regs["nombre_cuenta"])."</td>";
+    echo "<td align='right'>".number_format($regs["saldo_debe"],2)."</td>";
+    echo "<td align='right'>".number_format($regs["saldo_haber"],2)."</td>";
+    echo "</tr>";
+}
         						?>
         					</tbody>
         				</table>

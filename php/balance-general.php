@@ -125,7 +125,7 @@
 														echo "<td>".$acts["codigo_cuenta"].". ".utf8_encode($acts["nombre_cuenta"])."</td>";
 														echo "</tr>";
 													}
-													$consulta = "SELECT SUM((saldo_debe-saldo_haber)) total FROM cuentas WHERE codigo_cuenta LIKE '2%'";
+													$consulta = "SELECT SUM((saldo_haber-saldo_debe)) total FROM cuentas WHERE codigo_cuenta LIKE '2%'";
 													$ejecutar_consulta = $conexion->query($consulta);
 													if($ejecutar_consulta->num_rows > 0){
 														while ($regs = $ejecutar_consulta->fetch_assoc()) {
@@ -157,16 +157,63 @@
 														echo "<td>".$acts["codigo_cuenta"].". ".utf8_encode($acts["nombre_cuenta"])."</td>";
 														echo "</tr>";
 													}
-													$consulta = "SELECT SUM((saldo_debe-saldo_haber)) total FROM cuentas WHERE codigo_cuenta LIKE '3%'";
+													$consulta = "SELECT SUM((saldo_haber-saldo_debe)) total FROM cuentas WHERE codigo_cuenta LIKE '3%'";
 													$ejecutar_consulta = $conexion->query($consulta);
 													if($ejecutar_consulta->num_rows > 0){
 														while ($regs = $ejecutar_consulta->fetch_assoc()) {
-															$total_capital = $regs["total"];
-															echo "<tr>";
-															echo "<td class='text-right'><strong>Total Capital:</strong></td>";
-															echo "<td align='right'>".number_format($regs["total"],2)."</td>";
-															echo "</tr>";
-														}
+
+    $total_capital = $regs["total"];
+
+    /* Ventas */
+    $ventas = 0;
+    $res = $conexion->query("
+        SELECT (saldo_haber - saldo_debe) AS total
+        FROM cuentas
+        WHERE codigo_cuenta='4.1'
+    ");
+
+    if($fila = $res->fetch_assoc()){
+        $ventas = $fila["total"];
+    }
+
+    /* Costo de ventas */
+    $costoVentas = 0;
+    $res = $conexion->query("
+        SELECT (saldo_debe - saldo_haber) AS total
+        FROM cuentas
+        WHERE codigo_cuenta='5.1'
+    ");
+
+    if($fila = $res->fetch_assoc()){
+        $costoVentas = $fila["total"];
+    }
+
+    /* Gastos administrativos */
+    $gastos = 0;
+    $res = $conexion->query("
+        SELECT (saldo_debe - saldo_haber) AS total
+        FROM cuentas
+        WHERE codigo_cuenta='5.2'
+    ");
+
+    if($fila = $res->fetch_assoc()){
+        $gastos = $fila["total"];
+    }
+
+    $utilidad = $ventas - $costoVentas - $gastos;
+
+    echo "<tr>";
+    echo "<td>Resultado del período</td>";
+    echo "<td align='right'>".number_format($utilidad,2)."</td>";
+    echo "</tr>";
+
+    $total_capital = $total_capital + $utilidad;
+
+    echo "<tr>";
+    echo "<td class='text-right'><strong>Total Capital:</strong></td>";
+    echo "<td align='right'>".number_format($total_capital,2)."</td>";
+    echo "</tr>";
+}
 													}
 													?>
 												</table>

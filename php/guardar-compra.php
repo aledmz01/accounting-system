@@ -224,6 +224,23 @@ try{
         )
     ");
 
+    /* ==========================
+   ACTUALIZAR SALDOS CUENTAS
+========================== */
+
+/* Inventario de mercadería */
+$conexion->query("
+UPDATE cuentas
+SET saldo_debe = saldo_debe + $total_compra
+WHERE codigo_cuenta = '1.3'
+");
+
+/* Caja o Proveedores */
+$conexion->query("
+UPDATE cuentas
+SET saldo_haber = saldo_haber + $total_compra
+WHERE codigo_cuenta = '$cuenta_haber'
+");
     $conexion->commit();
 
     header("Location: registrar-compras.php?error=no&mensaje=Compra registrada correctamente");

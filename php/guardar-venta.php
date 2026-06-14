@@ -292,6 +292,38 @@ try{
             '$ip'
         )
     ");
+    
+    /* ==========================
+   ACTUALIZAR SALDOS CUENTAS
+========================== */
+
+/* Caja o Cuentas por Cobrar */
+$conexion->query("
+UPDATE cuentas
+SET saldo_debe = saldo_debe + $subtotal_general
+WHERE codigo_cuenta = '$cuenta_debe'
+");
+
+/* Ventas */
+$conexion->query("
+UPDATE cuentas
+SET saldo_haber = saldo_haber + $subtotal_general
+WHERE codigo_cuenta = '4.1'
+");
+
+/* Costo de ventas */
+$conexion->query("
+UPDATE cuentas
+SET saldo_debe = saldo_debe + $costo_total
+WHERE codigo_cuenta = '5.1'
+");
+
+/* Inventario de mercadería */
+$conexion->query("
+UPDATE cuentas
+SET saldo_haber = saldo_haber + $costo_total
+WHERE codigo_cuenta = '1.3'
+");
 
     $conexion->commit();
 

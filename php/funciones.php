@@ -87,98 +87,77 @@ function asientos($conexion, $transaccion) {
 	}
 
 	function actualizarCuentas($conexion, $cuenta){
-		$c = explode('.', $cuenta);
-		if(isset($c[4])){
-			//$sql = "SELECT SUM(debe) sumadebe, SUM(haber) sumahaber FROM registro WHERE cuenta='$cuenta'";
-			$sql = "SELECT IFNULL((SELECT SUM(debe) FROM registro WHERE cuenta='$cuenta'),0) sumadebe, IFNULL((SELECT SUM(haber) FROM registro WHERE cuenta='$cuenta'),0 ) sumahaber";
-			$ejecutar_consulta = $conexion->query($sql);
-			while($regs = $ejecutar_consulta->fetch_assoc()){
-				$saldo_debe = $regs["sumadebe"];
-				$saldo_haber = $regs["sumahaber"];
 
-				$update = "UPDATE subcuentas SET saldo_debe=$saldo_debe, saldo_haber=$saldo_haber WHERE codigo_subcuenta='$cuenta'";
-				$ex_query = $conexion->query($update);
-				if($ex_query){
-					//echo "OK. <br>";
-				}
-			}
-		}
+    $sql = "
+    SELECT
+        IFNULL(SUM(debe),0) AS sumadebe,
+        IFNULL(SUM(haber),0) AS sumahaber
+    FROM registro
+    WHERE cuenta='$cuenta'
+    ";
 
-		if(!isset($c[4])){
-			//$sql = "SELECT SUM(debe) sumadebe, SUM(haber) sumahaber FROM registro WHERE cuenta='$cuenta'";
-			$sql = "SELECT IFNULL((SELECT SUM(debe) FROM registro WHERE cuenta='$cuenta'),0) sumadebe, IFNULL((SELECT SUM(haber) FROM registro WHERE cuenta='$cuenta'),0 ) sumahaber";
-			$ejecutar_consulta = $conexion->query($sql);
-			if($ejecutar_consulta){
-				while($regs = $ejecutar_consulta->fetch_assoc()){
-					$saldo_debe = $regs["sumadebe"];
-					$saldo_haber = $regs["sumahaber"];
+    $ejecutar_consulta = $conexion->query($sql);
 
-					$update = "UPDATE cuentas SET saldo_debe=$saldo_debe, saldo_haber=$saldo_haber WHERE codigo_cuenta='$cuenta'";
-					$ex_query = $conexion->query($update);
-					if($ex_query){
-						//echo "OK. <br>";
-					}
-				}
-			}
-		}
-	}
+    if($ejecutar_consulta){
+
+        while($regs = $ejecutar_consulta->fetch_assoc()){
+
+            $saldo_debe = $regs["sumadebe"];
+            $saldo_haber = $regs["sumahaber"];
+
+            $update = "
+            UPDATE cuentas
+            SET
+                saldo_debe=$saldo_debe,
+                saldo_haber=$saldo_haber
+            WHERE codigo_cuenta='$cuenta'
+            ";
+
+            $conexion->query($update);
+        }
+    }
+}
 
 	function generarMayor($conexion){
-		$sql = "SELECT DISTINCTROW(cuenta) cuentas FROM registro";
-		$ejecutar_consulta = $conexion->query($sql);
-		while($regs = $ejecutar_consulta->fetch_assoc()){
-			$cuenta = $regs["cuentas"];
-			$c = explode('.', $cuenta);
-			if(isset($c[4])){
-				// Es subcuenta
-				$info = "SELECT nombre_subcuenta, saldo_debe, saldo_haber FROM subcuentas WHERE codigo_subcuenta='$cuenta'";
-				$exec = $conexion->query($info);
-				while($registros = $exec->fetch_assoc()){
-					$debe = $registros["saldo_debe"];
-					$haber = $registros["saldo_haber"];
-					$nombre = $registros["nombre_subcuenta"];
-					$actualiza = "INSERT INTO `sic115`.`mayor`(`cuenta`, `nombre`, `debe`, `haber`) VALUES ('$cuenta', '$nombre', $debe, $haber) ON DUPLICATE KEY UPDATE debe=$debe, haber=$haber, nombre='$nombre'";
-					$execute = $conexion->query($actualiza);
-					if($execute){
-						// echo "OK. <br>";
-					}
-				}
 
-			} else {
-				// Es cuenta
-				$info = "SELECT nombre_cuenta, saldo_debe, saldo_haber FROM cuentas WHERE codigo_cuenta='$cuenta'";
-				$exec = $conexion->query($info);
-				while($registros = $exec->fetch_assoc()){
-					$debe = $registros["saldo_debe"];
-					$haber = $registros["saldo_haber"];
-					$nombre = $registros["nombre_cuenta"];
-					$actualiza = "INSERT INTO `sic115`.`mayor` (`cuenta`, `nombre`, `debe`, `haber`) VALUES ('$cuenta', '$nombre', $debe, $haber) ON DUPLICATE KEY UPDATE debe=$debe, haber=$haber, nombre='$nombre'";
-					$execute = $conexion->query($actualiza);
-					if($execute){
-						// echo "OK. <br>";
-					}
-				}
-			}
+    $sql = "SELECT * FROM cuentas";
+    $ejecutar_consulta = $conexion->query($sql);
 
-		}
-	}
+    while($regs = $ejecutar_consulta->fetch_assoc()){
+
+        $cuenta = $regs["codigo_cuenta"];
+        $nombre = $regs["nombre_cuenta"];
+        $debe = $regs["saldo_debe"];
+        $haber = $regs["saldo_haber"];
+
+        $actualiza = "
+        INSERT INTO mayor
+        (
+            cuenta,
+            nombre,
+            debe,
+            haber
+        )
+        VALUES
+        (
+            '$cuenta',
+            '$nombre',
+            '$debe',
+            '$haber'
+        )
+        ON DUPLICATE KEY UPDATE
+            nombre='$nombre',
+            debe='$debe',
+            haber='$haber'
+        ";
+
+        $conexion->query($actualiza);
+    }
+}
 
 	function saldosCuentas($conexion, $cuentas){
-		$sql = "SELECT IFNULL((SELECT SUM(saldo_debe) FROM subcuentas WHERE cuenta = '$cuentas'),0) sumadebe, IFNULL((SELECT SUM(saldo_haber) FROM subcuentas WHERE cuenta='$cuentas'),0) sumahaber;";
-		$ejecutar_consulta = $conexion->query($sql);
-		if($ejecutar_consulta->num_rows > 0 ){
-			while ($regs = $ejecutar_consulta->fetch_assoc()) {
-				$saldo_debe = $regs["sumadebe"];
-				$saldo_haber = $regs["sumahaber"];
-				//$cuenta = $regs["cuenta"];
-				$consulta = "UPDATE cuentas SET saldo_debe=$saldo_debe, saldo_haber=$saldo_haber WHERE codigo_cuenta='$cuentas'";
-				$ejecutar = $conexion->query($consulta);
-				if($ejecutar_consulta){
-					//echo "OK. <br>";
-				}
-			}
-		}
-	}
+    return true;
+}
 
 	function calculaPlanilla($conexion, $datos){
 		$codigo = $datos["codigo_empleado_txt"];

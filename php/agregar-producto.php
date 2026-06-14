@@ -11,8 +11,6 @@ include("conexion.php");
 if($_POST){
 
     $nombre = $_POST["nombre"];
-    $cantidad = $_POST["cantidad"];
-    $costo = $_POST["costo"];
     $precio = $_POST["precio"];
 
     $consulta = "
@@ -25,7 +23,7 @@ if($_POST){
     VALUES
     (
         '$nombre',
-        '$cantidad',
+        0,
         '$precio'
     )
     ";
@@ -33,6 +31,7 @@ if($_POST){
     $conexion->query($consulta);
 
     header("Location: inventario.php");
+    exit();
 }
 
 ?>
@@ -60,6 +59,11 @@ if($_POST){
 
     <div class="well">
 
+        <div class="alert alert-info">
+            Los productos se crean con <strong>0 existencias</strong>.
+            Las existencias se actualizarán automáticamente mediante las compras y ventas.
+        </div>
+
         <form method="POST">
 
             <div class="form-group">
@@ -72,17 +76,7 @@ if($_POST){
             </div>
 
             <div class="form-group">
-                <label>Cantidad</label>
-                <input
-                    type="number"
-                    name="cantidad"
-                    class="form-control"
-                    min="0"
-                    required>
-            </div>
-
-            <div class="form-group">
-                <label>Precio</label>
+                <label>Precio de Venta ($)</label>
                 <input
                     type="number"
                     step="0.01"

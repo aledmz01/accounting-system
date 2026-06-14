@@ -10,30 +10,6 @@ if($_SESSION["tipo"]=="estandar"){
 }
 
 include("conexion.php");
-
-// Calcular valor total del inventario
-$consultaTotal = "
-SELECT SUM(cantidad * precio) AS total
-FROM inventario
-";
-
-$resultadoTotal = $conexion->query($consultaTotal);
-$filaTotal = $resultadoTotal->fetch_assoc();
-
-$totalInventario = $filaTotal['total'];
-
-if($totalInventario == NULL){
-    $totalInventario = 0;
-}
-
-// Actualizar cuenta Inventario de mercadería
-$actualizarCuenta = "
-UPDATE cuentas
-SET saldo_debe = '$totalInventario'
-WHERE nombre_cuenta = 'Inventario de mercadería'
-";
-
-$conexion->query($actualizarCuenta);
 ?>
 
 <!DOCTYPE html>
@@ -46,10 +22,7 @@ $conexion->query($actualizarCuenta);
     <link rel="stylesheet" type="text/css" href="../css/estilos.css"/>
     <link rel="shortcut icon" type="image/x-icon" href="../favicon.ico"/>
 
-```
-<title>C.A.S | Inventario</title>
-```
-
+    <title>C.A.S | Inventario</title>
 </head>
 
 <body>
@@ -58,115 +31,149 @@ $conexion->query($actualizarCuenta);
 
 <div class="container" id="contenido">
 
-```
-<div class="row row-offcanvas row-offcanvas-right">
+    <div class="row row-offcanvas row-offcanvas-right">
 
-    <div class="col-xs-12 col-sm-9">
+        <div class="col-xs-12 col-sm-9">
 
-        <div class="page-header">
-            <h3>Inventario - Productos Registrados</h3>
-        </div>
-
-        <div class="row">
-
-            <div class="col-lg-12 well">
-
-                <h2 class="text-primary">
-                    <span class="glyphicon glyphicon-list-alt"></span>
-                    Inventario del Mini Market El Ahorro
-                </h2>
-
-                <p class="text-info">
-                    Desde este apartado puede administrar los productos disponibles en inventario.
-                </p>
-
-                <a href="agregar-producto.php" class="btn btn-success">
-                    <span class="glyphicon glyphicon-plus"></span>
-                    Añadir Producto
-                </a>
-
+            <div class="page-header">
+                <h3>Inventario - Productos Registrados</h3>
             </div>
 
-            <?php
+            <div class="row">
 
-            $consulta = "SELECT * FROM Inventario";
-            $ejecutar_consulta = $conexion->query($consulta);
+                <div class="col-lg-12 well">
 
-            $totalInventario = 0;
+                    <h2 class="text-primary">
+                        <span class="glyphicon glyphicon-list-alt"></span>
+                        Inventario del Mini Market El Ahorro
+                    </h2>
 
-            ?>
+                    <p class="text-info">
+                        Desde este apartado puede administrar el catálogo de productos.
+                        Las existencias se actualizan automáticamente mediante compras y ventas.
+                    </p>
 
-            <table class="table table-hover table-condensed">
+                    <a href="agregar-producto.php" class="btn btn-success">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        Añadir Producto
+                    </a>
 
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Producto</th>
-                        <th>Cantidad</th>
-                        <th>Precio ($)</th>
-                        <th>Total ($)</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-
-                <tbody>
+                </div>
 
                 <?php
 
-                while($registro = $ejecutar_consulta->fetch_assoc())
-                {
-                    $totalProducto = $registro['cantidad'] * $registro['precio'];
-                    $totalInventario += $totalProducto;
+                $consulta = "
+SELECT *
+FROM inventario
+WHERE activo = 1
+ORDER BY nombre
+";
+                $ejecutar_consulta = $conexion->query($consulta);
 
-                    echo "<tr>";
-
-                    echo "<td>".$registro['id_inventario']."</td>";
-                    echo "<td>".$registro['nombre']."</td>";
-                    echo "<td>".$registro['cantidad']."</td>";
-                    echo "<td>".number_format($registro['precio'],2)."</td>";
-                    echo "<td>".number_format($totalProducto,2)."</td>";
-
-                    echo "<td>";
-
-                    echo "<a href='editar-producto.php?id=".$registro['id_inventario']."' class='btn btn-warning btn-xs'>";
-                    echo "<span class='glyphicon glyphicon-pencil'></span> Editar";
-                    echo "</a> ";
-
-                    echo "<a href='eliminar-producto.php?id=".$registro['id_inventario']."' class='btn btn-danger btn-xs' onclick=\"return confirm('¿Desea eliminar este producto?');\">";
-                    echo "<span class='glyphicon glyphicon-trash'></span> Eliminar";
-                    echo "</a>";
-
-                    echo "</td>";
-
-                    echo "</tr>";
-                }
+                $totalInventario = 0;
 
                 ?>
 
-                </tbody>
+                <table class="table table-hover table-condensed">
 
-                <tfoot>
-                    <tr class="success">
-                        <th colspan="4" style="text-align:right">
-                            Valor Total del Inventario:
-                        </th>
-                        <th>
-                            $ <?php echo number_format($totalInventario,2); ?>
-                        </th>
-                        <th></th>
-                    </tr>
-                </tfoot>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Precio ($)</th>
+                            <th>Total ($)</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
 
-            </table>
+                    <tbody>
+
+                    <?php
+
+                    while($registro = $ejecutar_consulta->fetch_assoc())
+                    {
+                        $totalProducto = $registro['cantidad'] * $registro['precio'];
+                        $totalInventario += $totalProducto;
+
+                        echo "<tr>";
+
+                        echo "<td>".$registro['id_inventario']."</td>";
+                        echo "<td>".$registro['nombre']."</td>";
+                        echo "<td>".$registro['cantidad']."</td>";
+                        echo "<td>".number_format($registro['precio'],2)."</td>";
+                        echo "<td>".number_format($totalProducto,2)."</td>";
+
+                        echo "<td>";
+
+                        echo "
+                        <a
+                            href='editar-producto.php?id=".$registro['id_inventario']."'
+                            class='btn btn-warning btn-xs'
+                        >
+                            <span class='glyphicon glyphicon-pencil'></span>
+                            Editar
+                        </a>
+                        ";
+
+                        echo " ";
+
+                        if($registro['cantidad'] == 0){
+
+                            echo "
+                            <a
+                                href='eliminar-producto.php?id=".$registro['id_inventario']."'
+                                class='btn btn-danger btn-xs'
+                                onclick=\"return confirm('¿Desea eliminar este producto?');\"
+                            >
+                                <span class='glyphicon glyphicon-trash'></span>
+                                Eliminar
+                            </a>
+                            ";
+
+                        }else{
+
+                            echo "
+                            <button
+                                class='btn btn-default btn-xs'
+                                disabled
+                            >
+                                En inventario
+                            </button>
+                            ";
+
+                        }
+
+                        echo "</td>";
+
+                        echo "</tr>";
+                    }
+
+                    ?>
+
+                    </tbody>
+
+                    <tfoot>
+                        <tr class="success">
+                            <th colspan="4" style="text-align:right">
+                                Valor Total del Inventario:
+                            </th>
+                            <th>
+                                $ <?php echo number_format($totalInventario,2); ?>
+                            </th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+
+                </table>
+
+            </div>
 
         </div>
 
+        <?php include("sidebar.php"); ?>
+
     </div>
-
-    <?php include("sidebar.php"); ?>
-
-</div>
-
 
 </div>
 

@@ -22,7 +22,7 @@
 	{
 		$servidor 	=	 "localhost";
 		$usuario 	=	 "root";
-		$password 	=	 "MysqlNetbeans123";
+		$password 	=	 "";
 		$bd 		=	 "sic115";
 
 		$conectar = new mysqli($servidor, $usuario, $password, $bd);

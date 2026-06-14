@@ -11,6 +11,7 @@ include("conexion.php");
 $productos = $conexion->query("
 SELECT *
 FROM inventario
+WHERE activo = 1
 ORDER BY nombre
 ");
 ?>
