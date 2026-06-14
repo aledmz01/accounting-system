@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-06-2026 a las 01:17:18
+-- Tiempo de generación: 15-06-2026 a las 01:58:19
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -193,16 +193,16 @@ CREATE TABLE `cuentas` (
 --
 
 INSERT INTO `cuentas` (`codigo_cuenta`, `subgrupo`, `nombre_cuenta`, `tiene_subcuenta`, `descripcion_cuenta`, `saldo_debe`, `saldo_haber`) VALUES
-('1.1', NULL, 'Caja', 'No', NULL, 112.35, 110),
+('1.1', NULL, 'Caja', 'No', NULL, 117.6, 110),
 ('1.2', NULL, 'Banco', 'No', NULL, 0, 0),
-('1.3', NULL, 'Inventario de mercadería', 'No', NULL, 111.8, 70.30000000000001),
+('1.3', NULL, 'Inventario de mercadería', 'No', NULL, 111.8, 73.45000000000002),
 ('1.4', NULL, 'Mobiliario y equipos', 'No', NULL, 0, 0),
 ('1.5', NULL, 'Cuentas por cobrar', 'No', NULL, 2.7, 0),
 ('2.1', NULL, 'Proveedores', 'No', NULL, 0, 1.8),
 ('2.2', NULL, 'Préstamo bancario', 'No', NULL, 0, 0),
 ('3.1', NULL, 'Capital social', 'No', NULL, 0, 0),
-('4.1', NULL, 'Ventas', 'No', NULL, 0, 115.05),
-('5.1', NULL, 'Costo de ventas', 'No', NULL, 70.30000000000001, 0),
+('4.1', NULL, 'Ventas', 'No', NULL, 0, 120.3),
+('5.1', NULL, 'Costo de ventas', 'No', NULL, 73.45000000000002, 0),
 ('5.2', NULL, 'Gastos administrativos', 'No', NULL, 0, 0);
 
 --
@@ -300,7 +300,8 @@ INSERT INTO `detalle_ventas` (`id_detalle`, `id_venta`, `id_inventario`, `cantid
 (20, 18, 7, 50, 0.75, 37.50),
 (21, 19, 7, 1, 0.75, 0.75),
 (22, 20, 6, 124, 0.90, 111.60),
-(23, 21, 6, 3, 0.90, 2.70);
+(23, 21, 6, 3, 0.90, 2.70),
+(24, 22, 7, 7, 0.75, 5.25);
 
 -- --------------------------------------------------------
 
@@ -356,9 +357,11 @@ INSERT INTO `inventario` (`id_inventario`, `nombre`, `cantidad`, `costo`, `preci
 (4, 'Arroz 1kg', 0, 0.75, 1.35, 0),
 (5, 'Azucar 1kg', 0, 0.65, 1.10, 0),
 (6, 'Frijoles 1lb', 73, 0.55, 0.90, 1),
-(7, 'Galletas Oreo', 53, 0.45, 0.75, 1),
+(7, 'Galletas Oreo', 46, 0.45, 0.75, 1),
 (8, 'Pan de Molde', 0, 1.20, 1.80, 1),
-(9, 'Jugo Del Valle', 0, 0.70, 1.20, 1);
+(9, 'Jugo Del Valle', 0, 0.70, 1.20, 1),
+(13, 'churros', 0, 0.00, 0.15, 1),
+(14, 'soda', 0, 0.00, 1.10, 1);
 
 -- --------------------------------------------------------
 
@@ -478,7 +481,11 @@ INSERT INTO `registro` (`id`, `fecha`, `transaccion`, `tipo`, `cuenta`, `concept
 (89, '2026-06-15', 24, 'VENTA', '5.1', 'Venta de mercadería', 1.65, 0.00, 'Costo de mercadería vendida', NULL, NULL, NULL, 'administrador', NULL, '::1'),
 (90, '2026-06-15', 24, 'VENTA', '1.3', 'Venta de mercadería', 0.00, 1.65, 'Salida de inventario', NULL, NULL, NULL, 'administrador', NULL, '::1'),
 (91, '2026-06-15', 25, 'COMPRA', '1.3', 'Compra de mercadería', 1.80, 0.00, 'Ingreso de mercadería', NULL, NULL, NULL, 'administrador', NULL, '::1'),
-(92, '2026-06-15', 25, 'COMPRA', '2.1', 'Compra de mercadería', 0.00, 1.80, 'Registro de compra', NULL, NULL, NULL, 'administrador', NULL, '::1');
+(92, '2026-06-15', 25, 'COMPRA', '2.1', 'Compra de mercadería', 0.00, 1.80, 'Registro de compra', NULL, NULL, NULL, 'administrador', NULL, '::1'),
+(93, '2026-06-15', 26, 'VENTA', '1.1', 'Venta de mercadería', 5.25, 0.00, 'Venta registrada', NULL, NULL, NULL, 'administrador', NULL, '::1'),
+(94, '2026-06-15', 26, 'VENTA', '4.1', 'Venta de mercadería', 0.00, 5.25, 'Ingreso por ventas', NULL, NULL, NULL, 'administrador', NULL, '::1'),
+(95, '2026-06-15', 26, 'VENTA', '5.1', 'Venta de mercadería', 3.15, 0.00, 'Costo de mercadería vendida', NULL, NULL, NULL, 'administrador', NULL, '::1'),
+(96, '2026-06-15', 26, 'VENTA', '1.3', 'Venta de mercadería', 0.00, 3.15, 'Salida de inventario', NULL, NULL, NULL, 'administrador', NULL, '::1');
 
 --
 -- Disparadores `registro`
@@ -1246,7 +1253,15 @@ INSERT INTO `security_log` (`id_evento`, `fecha`, `evento`, `user`, `ip`) VALUES
 (722, '2026-06-14 16:46:12', 'Se insertó un nuevo registro en la tabla registro.', 'root@localhost', 'root@localhost'),
 (723, '2026-06-14 16:46:12', 'Se insertó un nuevo registro en la tabla registro.', 'root@localhost', 'root@localhost'),
 (724, '2026-06-14 16:46:12', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
-(725, '2026-06-14 16:46:12', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost');
+(725, '2026-06-14 16:46:12', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(726, '2026-06-14 17:52:20', 'Se insertó un nuevo registro en la tabla registro.', 'root@localhost', 'root@localhost'),
+(727, '2026-06-14 17:52:20', 'Se insertó un nuevo registro en la tabla registro.', 'root@localhost', 'root@localhost'),
+(728, '2026-06-14 17:52:20', 'Se insertó un nuevo registro en la tabla registro.', 'root@localhost', 'root@localhost'),
+(729, '2026-06-14 17:52:20', 'Se insertó un nuevo registro en la tabla registro.', 'root@localhost', 'root@localhost'),
+(730, '2026-06-14 17:52:20', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(731, '2026-06-14 17:52:20', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(732, '2026-06-14 17:52:20', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(733, '2026-06-14 17:52:20', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost');
 
 -- --------------------------------------------------------
 
@@ -1351,7 +1366,8 @@ INSERT INTO `ventas` (`id_venta`, `total`, `fecha`, `concepto`, `tipo_pago`, `su
 (18, 37.50, '2026-06-15 00:35:38', 'Venta de mercadería', 'CONTADO', 37.50),
 (19, 0.75, '2026-06-15 00:42:22', 'Venta de mercadería', 'CONTADO', 0.75),
 (20, 111.60, '2026-06-15 00:44:20', 'Venta de mercadería', 'CONTADO', 111.60),
-(21, 2.70, '2026-06-15 00:45:58', 'Venta de mercadería', 'CREDITO', 2.70);
+(21, 2.70, '2026-06-15 00:45:58', 'Venta de mercadería', 'CREDITO', 2.70),
+(22, 5.25, '2026-06-15 01:52:20', 'Venta de mercadería', 'CONTADO', 5.25);
 
 -- --------------------------------------------------------
 
@@ -1500,13 +1516,13 @@ ALTER TABLE `detalle_compras`
 -- AUTO_INCREMENT de la tabla `detalle_ventas`
 --
 ALTER TABLE `detalle_ventas`
-  MODIFY `id_detalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id_detalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT de la tabla `inventario`
 --
 ALTER TABLE `inventario`
-  MODIFY `id_inventario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_inventario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `mayor`
@@ -1518,19 +1534,19 @@ ALTER TABLE `mayor`
 -- AUTO_INCREMENT de la tabla `registro`
 --
 ALTER TABLE `registro`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
 
 --
 -- AUTO_INCREMENT de la tabla `security_log`
 --
 ALTER TABLE `security_log`
-  MODIFY `id_evento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=726;
+  MODIFY `id_evento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=734;
 
 --
 -- AUTO_INCREMENT de la tabla `ventas`
 --
 ALTER TABLE `ventas`
-  MODIFY `id_venta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id_venta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- Restricciones para tablas volcadas
