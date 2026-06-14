@@ -25,8 +25,10 @@
 
 			<div class="panel-body" id="sb">
 				<div class="list-group text-right">
-					<a href="asiento-general.php" class="list-group-item">&#0171; Registrar compras</a>
-					<a href="asiento-simple.php" class="list-group-item">&#0171; Registrar ventas</a>
+					<a href="registrar-ventas.php" class="list-group-item">&#0171; Registrar ventas</a>
+					<a href="registrar-compras.php" class="list-group-item">&#0171; Registrar compras</a>
+					<!-- <a href="asiento-general.php" class="list-group-item">&#0171; Asiento</a>
+					<a href="asiento-simple.php" class="list-group-item">&#0171; Asiento simple</a> -->
 					<a href="diario.php" class="list-group-item">&#0171; Libro Diario</a>
 					<a href="mayor.php" class="list-group-item">&#0171; Libro Mayor</a>
 				</div>

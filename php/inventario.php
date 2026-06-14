@@ -166,7 +166,7 @@ $conexion->query($actualizarCuenta);
     <?php include("sidebar.php"); ?>
 
 </div>
-```
+
 
 </div>
 

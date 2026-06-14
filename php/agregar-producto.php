@@ -12,6 +12,7 @@ if($_POST){
 
     $nombre = $_POST["nombre"];
     $cantidad = $_POST["cantidad"];
+    $costo = $_POST["costo"];
     $precio = $_POST["precio"];
 
     $consulta = "

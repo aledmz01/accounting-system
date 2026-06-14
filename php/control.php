@@ -22,7 +22,7 @@ include("conexion.php");
 session_start(); // mejor al inicio
 
 $usuario = $_POST["user_txt"];
-$password = $_POST["password_txt"];
+$password = sha1($_POST["password_txt"]);
 
 $consulta = "SELECT * FROM usuario 
              WHERE usuario='$usuario' 

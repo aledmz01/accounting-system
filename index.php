@@ -1,13 +1,8 @@
 <?php
-/*~ Archivo index.php
-.---------------------------------------------------------------------------.
-|    Software: CAS - Computerized Accountancy System                        |
-|     Versión: 2.0                                                          |
-|   Lenguajes: PHP, HTML, CSS3 y Javascript                                 |
-| ------------------------------------------------------------------------- |
-|   Autor: Ricardo Vigil (alexcontreras@outlook.com)                        |
-| Copyright (C) 2013, FIA-UES. Todos los derechos reservados.               |
-'---------------------------------------------------------------------------'
+/*--------------------------------------------------------------------- |
+|   Autor: Eileen Alessia Dimas                    
+| Copyright (C) 2026, FIA-UES. Todos los derechos reservados.           |
+'-----------------------------------------------------------------------'
 */
 ?>
 <?php 

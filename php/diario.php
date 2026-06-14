@@ -1,135 +1,159 @@
-<?php
-/*~ Archivo diario.php
-.---------------------------------------------------------------------------.
-|    Software: CAS - Computerized Accountancy System                        |
-|     Versión: 1.0                                                          |
-|   Lenguajes: PHP, HTML, CSS3 y Javascript                                 |
-| ------------------------------------------------------------------------- |
-|   Autores: Ricardo Vigil (alexcontreras@outlook.com)                      |
-|          : Vanessa Campos                                                 |
-|          : Ingrid Aguilar                                                 |
-|          : Jhosseline Rodriguez                                           |
-| Copyright (C) 2013, FIA-UES. Todos los derechos reservados.               |
-| ------------------------------------------------------------------------- |
-|                                                                           |
-| Este archivo es parte del sistema de contabilidad C.A.S para la cátedra   |
-| de Sistemas Contables de la Facultad de Ingeniería y Arquitectura de la   |
-| Universidad de El Salvador.                                               |
-|                                                                           |
-'---------------------------------------------------------------------------'
-*/
+<?php 
+include("funciones.php"); 
+include("sesion.php");
+
+if(!isset($_COOKIE["sesion"])){
+    header("Location: salir.php");
+    exit;
+}
+
+include("conexion.php");
 ?>
-<?php
-	include("funciones.php"); 
-	include("sesion.php");
-	if(!$_COOKIE["sesion"]){
-		header("Location: salir.php");
-	}
-?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-	<meta charset="UTF-8"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-	<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
-	<link rel="stylesheet" type="text/css" href="../css/estilos.css"/>
-	<link rel="shortcut icon" type="image/x-icon" href="../favicon.ico" />
-	<script>
-	    !window.jQuery && document.write("<script src='../js/jquery.min.js'><\/script>");
-	</script>
-	<title>C.A.S | Diario</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="../css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../css/estilos.css"/>
+    <title>C.A.S | Libro Diario</title>
 </head>
 
 <body>
-	<!-- Barra de navegación -->
-	<?php include("nav.php"); ?>
-	<?php ?>
 
-	<!-- Contenido de la página -->
-	<div class="container" id="contenido">
-		<div class="row row-offcanvas row-offcanvas-right">
-			<div class="col-xs-12 col-sm-9">
-				<div class="page-header">
-        			<h3>Diario</h3>
-        		</div>
-        		<div class="row">
-                    <div class="col-lg-12 well">
-                        <h2 class="text-primary"><span class="glyphicon glyphicon-info-sign"></span> Libro Diario General</h2>
-                        <p align="justify" class="text-info">
-                            En esta sección usted podrá revisar el historial de transacciones que se han realizado en el sistema de manera periódica. Para ver los detalles de cada transacción haga click en el ID correspondiente a cada registro (etiquetas verdes).
-                        </p>
-                    </div>
-                    <hr>
-                    <div class="col-lg-12">
-                        <?php 
-                        if(isset($_GET["mensaje"])){
-                            echo "<div class='alert alert-info alert-dismissable'>";
-                            echo "<button type='button' class='close' data-dismiss='alert'>&times;</button>";
-                            echo $_GET["mensaje"];
-                            echo "</div>";
-                        }
-                        ?>
-                    </div>
-        		</div>
-        		<div class="row">
-        			<div class="col-lg-12">
-        				<?php 
-        				if(!isset($conexion)){ include("conexion.php");}
-        				$sql = "SELECT * FROM registro";
-        				$ejecutar_consulta = $conexion->query($sql);
-        				if($ejecutar_consulta->num_rows!=0){
-        					$sql = "SELECT DISTINCTROW(transaccion) AS transacciones FROM registro";
-        					$ejecutar_consulta = $conexion->query($sql);
-        					while($registro = $ejecutar_consulta->fetch_assoc()){
-        						//print_r($registro); echo "<br />";
-        						asientos($conexion, $registro["transacciones"]);
-        					}
-                            echo "<br><hr>";
-                            $sql = "SELECT sum(debe) as sumadebe, sum(haber) as sumahaber from registro";
-                            $ejecutar_consulta = $conexion->query($sql);
-                            while($registro = $ejecutar_consulta->fetch_assoc()){
-                                $dif = $registro["sumadebe"]-$registro["sumahaber"];
-                                echo "<div>";
-                                echo "<table class='table table-bordered table-condensed table-hover'>";
-                                echo "<tr>";
-                                echo "<td width='730' class='text-right'><strong>SUMAS TOTALES</strong></td>" ;
-                                echo "<td width='90' align='right'><strong>$ ".number_format($registro["sumadebe"],2)."</strong></td>";
-                                echo "<td width='90' align='right'><strong>$ ".number_format($registro["sumahaber"], 2)."</strong></td>";
-                                if($dif!=0){
-                                    echo "<td width='90' class='danger' align='right'><strong>$ ".number_format($dif, 2)."</strong></td>";
-                                } else{
-                                    echo "<td width='90'></td>";
-                                }
+<?php include("nav.php"); ?>
 
-                                echo "</tr>";
-                                echo "</table>";
-                                echo "</div>";
-                            }
-        				} else {
-                            $sql = "CALL reiniciar_saldos()";
-                            $ejecutar_consulta = $conexion->query($sql);
-        					echo "<div class='alert alert-info'>";
-        					echo "No hay asientos.";
-        					echo "</div>";
-        				}
-                        
-         				?>
-        			</div>
-        		</div>
-        	</div><!--/span-->
+<div class="container" id="contenido">
 
-			<!-- Barra lateral o sidebar -->
-        	<?php include("sidebar.php"); ?>
-        	
+<div class="row">
+
+    <div class="col-xs-12 col-sm-9">
+
+        <div class="page-header">
+            <h3>Libro Diario General</h3>
         </div>
+
+        <!-- MENSAJES -->
+        <?php if(isset($_GET["mensaje"])) { ?>
+            <div class="alert alert-info">
+                <?php echo $_GET["mensaje"]; ?>
+            </div>
+        <?php } ?>
+
+        <div class="well">
+            <h4 class="text-primary">Movimientos contables</h4>
+            <p class="text-info">
+                Se muestran los asientos registrados en el sistema.
+            </p>
+        </div>
+
+        <?php
+        if(!isset($conexion)){
+            include("conexion.php");
+        }
+
+        /*
+        🔥 IMPORTANTE:
+        Usamos TU estructura real:
+        - transaccion = 1,2,3...
+        - tipo = 1 o 2
+        */
+
+        $sql = "
+            SELECT *
+            FROM registro
+            ORDER BY transaccion ASC, id ASC
+        ";
+
+        $resultado = $conexion->query($sql);
+
+        if($resultado->num_rows > 0){
+
+            $actual = null;
+
+            while($row = $resultado->fetch_assoc()){
+
+                // 👉 Detectar cambio de asiento
+                if($actual != $row["transaccion"]){
+
+                    if($actual != null){
+                        echo "</tbody></table><br>";
+                    }
+
+                    $actual = $row["transaccion"];
+
+                    echo "<div class='alert alert-success'>";
+                    echo "<strong>Asiento: </strong> " . $actual;
+                    echo "</div>";
+
+                    echo "<table class='table table-bordered table-hover'>";
+                    echo "<thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Cuenta</th>
+                                <th>Concepto</th>
+                                <th class='text-right'>Debe</th>
+                                <th class='text-right'>Haber</th>
+                            </tr>
+                          </thead>
+                          <tbody>";
+                }
+
+                echo "<tr>";
+                echo "<td>".$row['fecha']."</td>";
+                echo "<td>".$row['cuenta']."</td>";
+                echo "<td>".$row['concepto']."</td>";
+                echo "<td class='text-right'>".number_format($row['debe'],2)."</td>";
+                echo "<td class='text-right'>".number_format($row['haber'],2)."</td>";
+                echo "</tr>";
+            }
+
+            echo "</tbody></table>";
+
+            // 🔥 TOTALES
+            $tot = $conexion->query("
+                SELECT 
+                    SUM(debe) AS debe,
+                    SUM(haber) AS haber
+                FROM registro
+            ")->fetch_assoc();
+
+            $dif = $tot["debe"] - $tot["haber"];
+
+            echo "<hr>";
+            echo "<table class='table table-bordered'>";
+            echo "<tr>";
+            echo "<td class='text-right'><strong>TOTALES</strong></td>";
+            echo "<td class='text-right'><strong>$ ".number_format($tot["debe"],2)."</strong></td>";
+            echo "<td class='text-right'><strong>$ ".number_format($tot["haber"],2)."</strong></td>";
+
+            if($dif != 0){
+                echo "<td class='danger text-right'><strong>DIF: $ ".number_format($dif,2)."</strong></td>";
+            } else {
+                echo "<td></td>";
+            }
+
+            echo "</tr>";
+            echo "</table>";
+
+        } else {
+            echo "<div class='alert alert-info'>No hay movimientos registrados.</div>";
+        }
+        ?>
+
     </div>
 
-	<!-- Pie de página o Footer -->
-	<?php include("footer.php"); ?>
+    <?php include("sidebar.php"); ?>
 
-	<!-- Ventanas flotantes -->
-	<?php include("modal.php"); ?>
+</div>
 
-	<script src="../js/bootstrap.min.js"></script>
+</div>
+
+<?php include("footer.php"); ?>a
+<?php include("modal.php"); ?>
+
+<script src="../js/bootstrap.min.js"></script>
+
 </body>
 </html>
