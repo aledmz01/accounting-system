@@ -1,33 +1,31 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.4
--- http://www.phpmyadmin.net
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
 --
--- Servidor: localhost
--- Tiempo de generación: 29-11-2013 a las 07:04:58
--- Versión del servidor: 5.6.12-log
--- Versión de PHP: 5.4.16
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 14-06-2026 a las 05:03:21
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Base de datos: `sic115`
 --
-CREATE DATABASE IF NOT EXISTS `sic115` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `sic115`;
 
 DELIMITER $$
 --
 -- Procedimientos
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `reiniciar_saldos`()
-BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `reiniciar_saldos` ()   BEGIN
 		update subcuentas set saldo_debe=0.00, saldo_haber=0.00;
 		update cuentas set saldo_debe=0.00, saldo_haber=0.00;
     END$$
@@ -40,18 +38,17 @@ DELIMITER ;
 -- Estructura de tabla para la tabla `anio_contable`
 --
 
-CREATE TABLE IF NOT EXISTS `anio_contable` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `anio_contable` year(4) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=2 ;
+CREATE TABLE `anio_contable` (
+  `id` int(11) NOT NULL,
+  `anio_contable` year(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
 -- Volcado de datos para la tabla `anio_contable`
 --
 
 INSERT INTO `anio_contable` (`id`, `anio_contable`) VALUES
-(1, 2013);
+(1, '2013');
 
 -- --------------------------------------------------------
 
@@ -59,11 +56,10 @@ INSERT INTO `anio_contable` (`id`, `anio_contable`) VALUES
 -- Estructura de tabla para la tabla `cargos_empleados`
 --
 
-CREATE TABLE IF NOT EXISTS `cargos_empleados` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `cargo` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+CREATE TABLE `cargos_empleados` (
+  `id` int(11) NOT NULL,
+  `cargo` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Volcado de datos para la tabla `cargos_empleados`
@@ -84,11 +80,10 @@ INSERT INTO `cargos_empleados` (`id`, `cargo`) VALUES
 -- Estructura de tabla para la tabla `catalogo_clasificaciones`
 --
 
-CREATE TABLE IF NOT EXISTS `catalogo_clasificaciones` (
+CREATE TABLE `catalogo_clasificaciones` (
   `codigo_clasificacion` int(11) NOT NULL,
-  `nombre` varchar(15) DEFAULT NULL,
-  PRIMARY KEY (`codigo_clasificacion`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `nombre` varchar(15) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Volcado de datos para la tabla `catalogo_clasificaciones`
@@ -106,14 +101,12 @@ INSERT INTO `catalogo_clasificaciones` (`codigo_clasificacion`, `nombre`) VALUES
 -- Estructura de tabla para la tabla `catalogo_cuentas`
 --
 
-CREATE TABLE IF NOT EXISTS `catalogo_cuentas` (
+CREATE TABLE `catalogo_cuentas` (
   `codigo_cuenta` varchar(20) NOT NULL,
   `naturaleza` varchar(20) NOT NULL,
   `subgrupo` varchar(10) NOT NULL,
-  `nombre_cuenta` varchar(50) NOT NULL,
-  PRIMARY KEY (`codigo_cuenta`),
-  KEY `subgrupo` (`subgrupo`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `nombre_cuenta` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Volcado de datos para la tabla `catalogo_cuentas`
@@ -146,14 +139,12 @@ INSERT INTO `catalogo_cuentas` (`codigo_cuenta`, `naturaleza`, `subgrupo`, `nomb
 -- Estructura de tabla para la tabla `catalogo_grupos`
 --
 
-CREATE TABLE IF NOT EXISTS `catalogo_grupos` (
+CREATE TABLE `catalogo_grupos` (
   `codigo_grupo` varchar(10) NOT NULL,
   `clasificacion` int(11) DEFAULT NULL,
   `naturaleza` varchar(15) NOT NULL,
-  `nombre_grupo` varchar(50) NOT NULL,
-  PRIMARY KEY (`codigo_grupo`),
-  KEY `clasificacion` (`clasificacion`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `nombre_grupo` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Volcado de datos para la tabla `catalogo_grupos`
@@ -175,14 +166,12 @@ INSERT INTO `catalogo_grupos` (`codigo_grupo`, `clasificacion`, `naturaleza`, `n
 -- Estructura de tabla para la tabla `catalogo_subcuentas`
 --
 
-CREATE TABLE IF NOT EXISTS `catalogo_subcuentas` (
+CREATE TABLE `catalogo_subcuentas` (
   `codigo_subcuenta` varchar(20) NOT NULL,
   `naturaleza` varchar(20) NOT NULL,
   `cuenta` varchar(20) NOT NULL,
-  `nombre_subcuenta` varchar(50) NOT NULL,
-  PRIMARY KEY (`codigo_subcuenta`),
-  KEY `cuenta` (`cuenta`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `nombre_subcuenta` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Volcado de datos para la tabla `catalogo_subcuentas`
@@ -209,13 +198,12 @@ INSERT INTO `catalogo_subcuentas` (`codigo_subcuenta`, `naturaleza`, `cuenta`, `
 -- Estructura de tabla para la tabla `catalogo_subgrupos`
 --
 
-CREATE TABLE IF NOT EXISTS `catalogo_subgrupos` (
+CREATE TABLE `catalogo_subgrupos` (
   `codigo_subgrupo` varchar(20) NOT NULL,
   `naturaleza` varchar(15) NOT NULL,
   `grupo` varchar(20) NOT NULL,
-  `nombre_subgrupo` varchar(50) NOT NULL,
-  PRIMARY KEY (`codigo_subgrupo`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `nombre_subgrupo` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Volcado de datos para la tabla `catalogo_subgrupos`
@@ -243,10 +231,9 @@ INSERT INTO `catalogo_subgrupos` (`codigo_subgrupo`, `naturaleza`, `grupo`, `nom
 -- Estructura de tabla para la tabla `clasificaciones`
 --
 
-CREATE TABLE IF NOT EXISTS `clasificaciones` (
+CREATE TABLE `clasificaciones` (
   `codigo_clasificacion` int(11) NOT NULL,
-  `nombre_clasificacion` varchar(20) CHARACTER SET latin1 DEFAULT NULL,
-  PRIMARY KEY (`codigo_clasificacion`)
+  `nombre_clasificacion` varchar(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
@@ -265,16 +252,14 @@ INSERT INTO `clasificaciones` (`codigo_clasificacion`, `nombre_clasificacion`) V
 -- Estructura de tabla para la tabla `cuentas`
 --
 
-CREATE TABLE IF NOT EXISTS `cuentas` (
-  `codigo_cuenta` varchar(20) COLLATE latin1_general_ci NOT NULL,
-  `subgrupo` varchar(20) COLLATE latin1_general_ci DEFAULT NULL,
-  `nombre_cuenta` varchar(50) COLLATE latin1_general_ci NOT NULL,
-  `tiene_subcuenta` enum('Si','No') COLLATE latin1_general_ci NOT NULL,
-  `descripcion_cuenta` varchar(255) COLLATE latin1_general_ci DEFAULT NULL,
+CREATE TABLE `cuentas` (
+  `codigo_cuenta` varchar(20) NOT NULL,
+  `subgrupo` varchar(20) DEFAULT NULL,
+  `nombre_cuenta` varchar(50) NOT NULL,
+  `tiene_subcuenta` enum('Si','No') NOT NULL,
+  `descripcion_cuenta` varchar(255) DEFAULT NULL,
   `saldo_debe` double NOT NULL,
-  `saldo_haber` double NOT NULL,
-  PRIMARY KEY (`codigo_cuenta`),
-  KEY `subgrupo` (`subgrupo`)
+  `saldo_haber` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
@@ -282,59 +267,37 @@ CREATE TABLE IF NOT EXISTS `cuentas` (
 --
 
 INSERT INTO `cuentas` (`codigo_cuenta`, `subgrupo`, `nombre_cuenta`, `tiene_subcuenta`, `descripcion_cuenta`, `saldo_debe`, `saldo_haber`) VALUES
-('1.1.1.1', '1.1.1', 'Banco Agrícola', 'No', 'Cuenta para la Sociedad en el Banco Agrícola.', 0, 0),
-('1.2.1.1', '1.2.1', 'Materiales Directos', 'Si', NULL, 0, 0),
-('1.2.1.2', '1.2.1', 'Materiales Indirectos', 'Si', NULL, 0, 0),
-('1.2.2.1', '1.2.2', 'Botellas de Vino de Naranja', 'No', NULL, 0, 0),
-('1.2.2.2', '1.2.2', 'Botellas de Vino de Mandarina', 'No', NULL, 0, 0),
-('1.2.2.3', '1.2.2', 'Botellas de Vino de Piña', 'No', NULL, 0, 0),
-('1.2.2.4', '1.2.2', 'Botellas de Vino de Marañón', 'No', NULL, 0, 0),
-('1.2.2.5', '1.2.2', 'Botellas de Vino de Coco', 'No', NULL, 0, 0),
-('1.2.2.6', '1.2.2', 'Botellas de Vino de Rosa de Jamaica', 'No', NULL, 0, 0),
-('1.3.2.1', '1.3.2', 'Inversión en maquinaria y equipo de producción.', 'No', 'Este rubro comprende lo relacionado con la adquisición de la maquinaria, equipo, instrumentos y utensilios que serán indispensables en los procesos productivos para la elaboración de vinos y que previamente fueron considerados en la sección del diseño det', 422.5, 0),
-('1.3.5.1', '1.3.5', 'Inversión en Mobiliario y Equipo de Oficina', 'No', 'En este rubro se incluye todo el mobiliario y equipo para la totalidad de las áreas administrativas a considerar para la empresa Vinos Nonualcos y Cia. De C.V.', 0, 0),
-('1.3.6.1', '1.3.6', 'Inversión en Obra Civil', 'No', 'Cuenta para registrar las inversiones relacionadas con el trabajo de Obra Civil.', 233.9, 0),
-('4.1.1.1', '4.1.1', 'Mano de Obra Directa', 'No', NULL, 0, 0),
-('4.1.1.2', '4.1.1', 'Costo de Materias Primas', 'No', NULL, 0, 0),
-('4.1.2.1', '4.1.2', 'Sueldos y Salarios', 'No', NULL, 0, 0),
-('4.1.2.2', '4.1.2', 'Prestaciones Laborales', 'Si', NULL, 0, 0),
-('4.1.2.3', '4.1.2', 'Servicios Médicos', 'No', NULL, 0, 0),
-('4.1.3.1', '4.1.3', 'Luz', 'No', NULL, 0, 0),
-('4.1.3.2', '4.1.3', 'Teléfono', 'No', NULL, 0, 0),
-('4.1.3.3', '4.1.3', 'Agua', 'No', NULL, 0, 0),
-('4.1.3.4', '4.1.3', 'Internet', 'No', NULL, 0, 0),
-('4.1.4.1', '4.1.4', 'Depreciación de bienes Muebles', 'No', NULL, 0, 0),
-('4.1.4.2', '4.1.4', 'Depreciación de Maquinaria y Equipo', 'No', NULL, 0, 0);
+('1.1', NULL, 'Caja', 'No', NULL, 2500, 0),
+('1.2', NULL, 'Banco', 'No', NULL, 1500, 0),
+('1.3', NULL, 'Inventario de mercadería', 'No', NULL, 4000, 0),
+('1.4', NULL, 'Mobiliario y equipos', 'No', NULL, 1000, 0),
+('2.1', NULL, 'Proveedores', 'No', NULL, 0, 1500),
+('2.2', NULL, 'Préstamo bancario', 'No', NULL, 0, 2000),
+('3.1', NULL, 'Capital social', 'No', NULL, 0, 5500);
 
 --
 -- Disparadores `cuentas`
 --
-DROP TRIGGER IF EXISTS `log_delete_cuentas`;
-DELIMITER //
-CREATE TRIGGER `log_delete_cuentas` AFTER DELETE ON `cuentas`
- FOR EACH ROW BEGIN
+DELIMITER $$
+CREATE TRIGGER `log_delete_cuentas` AFTER DELETE ON `cuentas` FOR EACH ROW BEGIN
 		INSERT INTO `sic115`.`security_log` (`fecha`, `evento`, `user`, `ip`) 
 		VALUES (CONCAT_WS(' ',CURDATE(), CURTIME()), CONCAT_WS(' ','Se eliminó un registro en la tabla cuentas. El registro eliminado es:',old.codigo_cuenta), USER(), CURRENT_USER());
     END
-//
+$$
 DELIMITER ;
-DROP TRIGGER IF EXISTS `log_insert_cuentas`;
-DELIMITER //
-CREATE TRIGGER `log_insert_cuentas` AFTER INSERT ON `cuentas`
- FOR EACH ROW BEGIN
+DELIMITER $$
+CREATE TRIGGER `log_insert_cuentas` AFTER INSERT ON `cuentas` FOR EACH ROW BEGIN
 		INSERT INTO `sic115`.`security_log` (`fecha`, `evento`, `user`, `ip`) 
 		VALUES (CONCAT_WS(' ',CURDATE(), CURTIME()), CONCAT_WS(' ','Se insertó un nuevo registro en la tabla cuentas. El valor es:',new.codigo_cuenta), USER(), CURRENT_USER());
     END
-//
+$$
 DELIMITER ;
-DROP TRIGGER IF EXISTS `log_update_cuentas`;
-DELIMITER //
-CREATE TRIGGER `log_update_cuentas` AFTER UPDATE ON `cuentas`
- FOR EACH ROW BEGIN
+DELIMITER $$
+CREATE TRIGGER `log_update_cuentas` AFTER UPDATE ON `cuentas` FOR EACH ROW BEGIN
 		INSERT INTO `sic115`.`security_log` (`fecha`, `evento`, `user`, `ip`) 
 		VALUES (CONCAT_WS(' ',CURDATE(), CURTIME()), CONCAT_WS(' ','Se modificó un registro en la tabla cuentas.'), USER(), CURRENT_USER());
     END
-//
+$$
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -343,8 +306,8 @@ DELIMITER ;
 -- Estructura de tabla para la tabla `empleados`
 --
 
-CREATE TABLE IF NOT EXISTS `empleados` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `empleados` (
+  `id` int(11) NOT NULL,
   `codigo_empleado` varchar(8) NOT NULL,
   `primer_nombre` varchar(50) DEFAULT NULL,
   `segundo_nombre` varchar(50) DEFAULT NULL,
@@ -361,10 +324,8 @@ CREATE TABLE IF NOT EXISTS `empleados` (
   `aguinaldo` double DEFAULT NULL,
   `salario_mensual` double DEFAULT NULL,
   `aportaciones_mensuales_patrono` double DEFAULT NULL,
-  `pago_salario_patrono` double DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `codigo_empleado` (`codigo_empleado`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
+  `pago_salario_patrono` double DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Volcado de datos para la tabla `empleados`
@@ -389,13 +350,11 @@ INSERT INTO `empleados` (`id`, `codigo_empleado`, `primer_nombre`, `segundo_nomb
 -- Estructura de tabla para la tabla `grupos`
 --
 
-CREATE TABLE IF NOT EXISTS `grupos` (
-  `codigo_grupo` varchar(10) COLLATE latin1_general_ci NOT NULL,
-  `nombre_grupo` varchar(50) COLLATE latin1_general_ci NOT NULL,
-  `descripcion` varchar(255) COLLATE latin1_general_ci DEFAULT NULL,
-  `clasificacion` int(11) DEFAULT NULL,
-  PRIMARY KEY (`codigo_grupo`),
-  KEY `clasificacion` (`clasificacion`)
+CREATE TABLE `grupos` (
+  `codigo_grupo` varchar(10) NOT NULL,
+  `nombre_grupo` varchar(50) NOT NULL,
+  `descripcion` varchar(255) DEFAULT NULL,
+  `clasificacion` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
@@ -419,18 +378,17 @@ INSERT INTO `grupos` (`codigo_grupo`, `nombre_grupo`, `descripcion`, `clasificac
 -- Estructura de tabla para la tabla `iva`
 --
 
-CREATE TABLE IF NOT EXISTS `iva` (
-  `id` int(1) unsigned NOT NULL,
-  `iva` decimal(5,2) unsigned NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `iva` (
+  `id` int(1) UNSIGNED NOT NULL,
+  `iva` decimal(5,2) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Volcado de datos para la tabla `iva`
 --
 
 INSERT INTO `iva` (`id`, `iva`) VALUES
-(1, '0.13');
+(1, 0.13);
 
 -- --------------------------------------------------------
 
@@ -438,15 +396,13 @@ INSERT INTO `iva` (`id`, `iva`) VALUES
 -- Estructura de tabla para la tabla `mayor`
 --
 
-CREATE TABLE IF NOT EXISTS `mayor` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `cuenta` varchar(20) COLLATE latin1_general_ci NOT NULL,
-  `nombre` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
+CREATE TABLE `mayor` (
+  `id` int(11) NOT NULL,
+  `cuenta` varchar(20) NOT NULL,
+  `nombre` varchar(50) DEFAULT NULL,
   `debe` double NOT NULL,
-  `haber` double NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `cuenta` (`cuenta`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
+  `haber` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 -- --------------------------------------------------------
 
@@ -454,72 +410,65 @@ CREATE TABLE IF NOT EXISTS `mayor` (
 -- Estructura de tabla para la tabla `registro`
 --
 
-CREATE TABLE IF NOT EXISTS `registro` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `registro` (
+  `id` int(11) NOT NULL,
   `fecha` date NOT NULL,
   `transaccion` int(11) NOT NULL,
-  `tipo` varchar(20) COLLATE latin1_general_ci NOT NULL,
-  `cuenta` varchar(20) CHARACTER SET utf8 DEFAULT NULL,
-  `concepto` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `tipo` varchar(20) NOT NULL,
+  `cuenta` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `concepto` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `debe` decimal(18,2) DEFAULT NULL,
   `haber` decimal(18,2) DEFAULT NULL,
-  `descripcion` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  `partida_doble` varchar(20) CHARACTER SET utf8 DEFAULT NULL,
-  `justificante` varchar(30) COLLATE latin1_general_ci DEFAULT NULL,
+  `descripcion` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `partida_doble` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `justificante` varchar(30) DEFAULT NULL,
   `fecha_modificacion` date DEFAULT NULL,
-  `usuario_creacion` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
-  `usuario_modif` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
-  `ip` varchar(15) CHARACTER SET utf8 DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=17 ;
+  `usuario_creacion` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `usuario_modif` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `ip` varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
 -- Volcado de datos para la tabla `registro`
 --
 
 INSERT INTO `registro` (`id`, `fecha`, `transaccion`, `tipo`, `cuenta`, `concepto`, `debe`, `haber`, `descripcion`, `partida_doble`, `justificante`, `fecha_modificacion`, `usuario_creacion`, `usuario_modif`, `ip`) VALUES
-(1, '2013-09-02', 1, '', '1.3.6.1', 'Eliminación de Pared', '22.50', '0.00', 'Eliminación de pared. Dimensiones: 2.5m x 3.0m. Área total: 7.5 metros cuadrados. Costo por metro cuadrado: $3.00. Cantidad: 1. Total: $22.50', NULL, '', NULL, 'administrador', NULL, '::1'),
-(2, '2013-09-02', 1, '', '1.3.6.1', 'Emparejamiento de suelo', '15.60', '0.00', 'Emparejamiento de suelo. Área total: 7.8 metros cuadrados. Costo por metro cuadrado: $2.00. Cantidad: 1. Total: 15.60', NULL, '', NULL, 'administrador', NULL, '::1'),
-(3, '2013-09-02', 1, '', '1.3.6.1', 'División Comedor-Producción', '12.75', '0.00', 'División Comedor-Producción (1.7m x 3.0m). Área total: 5.1 metros cuadrados. Costo por metro cuadrado: $2.50. Cantidad: 1. Total: 12.75', NULL, '', NULL, 'administrador', NULL, '::1'),
-(4, '2013-09-02', 1, '', '1.3.6.1', 'División Patio-Producción', '15.00', '0.00', 'División Patio-Producción (3.5m x 3.0m). Área total: 6.0 metros cuadrados. Costo por metro cuadrado: $2.50. Cantidad: 1. Total: $26.75', NULL, '', NULL, 'administrador', NULL, '::1'),
-(5, '2013-09-02', 1, '', '1.3.6.1', 'División Producto en Proceso', '26.25', '0.00', 'División Producto en Proceso (3.5m x 3.0m). Área total: 10.5 metros cuadrados. Costo por metro cuadrado: $2.50. Total: $26.25', NULL, '', NULL, 'administrador', NULL, '::1'),
-(6, '2013-09-02', 1, '', '1.3.6.1', 'Divisiones', '20.00', '0.00', 'Divisiones (2m x 2m). Área total: 4.0 metros cuadrados. Costo por metro cuadrado: $2.50. Total: $20.00', NULL, '', NULL, 'administrador', NULL, '::1'),
-(7, '2013-09-02', 1, '', '1.3.6.1', 'Divisiones', '16.50', '0.00', 'Test', NULL, NULL, NULL, 'administrador', NULL, '::1'),
-(9, '2013-09-03', 1, '', '1.3.6.1', 'Puertas', '105.30', '0.00', 'Test', NULL, NULL, NULL, 'administrador', NULL, '::1'),
-(10, '2013-09-04', 2, '', '1.3.2.1', 'Pelador de naranjas', '48.00', '0.00', '4 peladores a $12.00 c/u', NULL, NULL, NULL, 'administrador', NULL, '::1'),
-(11, '2013-09-04', 2, '', '1.3.2.1', 'Pelador de Cítricos', '12.00', '0.00', '4 peladores a $3.00 c/u', NULL, NULL, NULL, 'administrador', NULL, '::1'),
-(12, '2013-09-04', 2, '', '1.3.2.1', 'Pelador y cortador de Piña', '20.00', '0.00', '4 unidades a $5.00 c/u', NULL, NULL, NULL, 'administrador', NULL, '::1'),
-(13, '2013-09-04', 2, '', '1.3.2.1', 'Cocina eléctrica para Rosa de Jamaica', '80.00', '0.00', '2 unidades a $40.00 c/u', NULL, NULL, NULL, 'administrador', NULL, '::1'),
-(14, '2013-09-04', 2, '', '1.3.2.1', 'Olla para hervir', '14.00', '0.00', '2 unidades a $7.00 c/u.', NULL, NULL, NULL, 'administrador', NULL, '127.0.0.1'),
-(15, '2013-09-06', 2, '', '1.3.2.1', 'Exprimidor/Prensa de cítricos', '132.00', '0.00', '4 unidades a $33.00 c/u.', NULL, NULL, NULL, 'administrador', NULL, '127.0.0.1'),
-(16, '2013-09-06', 2, '', '1.3.2.1', 'Encorchadora', '116.50', '0.00', '1 unidad a $116.50', NULL, NULL, NULL, 'administrador', NULL, '127.0.0.1');
+(1, '2013-09-02', 1, '', '1.3.6.1', 'Eliminación de Pared', 22.50, 0.00, 'Eliminación de pared. Dimensiones: 2.5m x 3.0m. Área total: 7.5 metros cuadrados. Costo por metro cuadrado: $3.00. Cantidad: 1. Total: $22.50', NULL, '', NULL, 'administrador', NULL, '::1'),
+(2, '2013-09-02', 1, '', '1.3.6.1', 'Emparejamiento de suelo', 15.60, 0.00, 'Emparejamiento de suelo. Área total: 7.8 metros cuadrados. Costo por metro cuadrado: $2.00. Cantidad: 1. Total: 15.60', NULL, '', NULL, 'administrador', NULL, '::1'),
+(3, '2013-09-02', 1, '', '1.3.6.1', 'División Comedor-Producción', 12.75, 0.00, 'División Comedor-Producción (1.7m x 3.0m). Área total: 5.1 metros cuadrados. Costo por metro cuadrado: $2.50. Cantidad: 1. Total: 12.75', NULL, '', NULL, 'administrador', NULL, '::1'),
+(4, '2013-09-02', 1, '', '1.3.6.1', 'División Patio-Producción', 15.00, 0.00, 'División Patio-Producción (3.5m x 3.0m). Área total: 6.0 metros cuadrados. Costo por metro cuadrado: $2.50. Cantidad: 1. Total: $26.75', NULL, '', NULL, 'administrador', NULL, '::1'),
+(5, '2013-09-02', 1, '', '1.3.6.1', 'División Producto en Proceso', 26.25, 0.00, 'División Producto en Proceso (3.5m x 3.0m). Área total: 10.5 metros cuadrados. Costo por metro cuadrado: $2.50. Total: $26.25', NULL, '', NULL, 'administrador', NULL, '::1'),
+(6, '2013-09-02', 1, '', '1.3.6.1', 'Divisiones', 20.00, 0.00, 'Divisiones (2m x 2m). Área total: 4.0 metros cuadrados. Costo por metro cuadrado: $2.50. Total: $20.00', NULL, '', NULL, 'administrador', NULL, '::1'),
+(7, '2013-09-02', 1, '', '1.3.6.1', 'Divisiones', 16.50, 0.00, 'Test', NULL, NULL, NULL, 'administrador', NULL, '::1'),
+(9, '2013-09-03', 1, '', '1.3.6.1', 'Puertas', 105.30, 0.00, 'Test', NULL, NULL, NULL, 'administrador', NULL, '::1'),
+(10, '2013-09-04', 2, '', '1.3.2.1', 'Pelador de naranjas', 48.00, 0.00, '4 peladores a $12.00 c/u', NULL, NULL, NULL, 'administrador', NULL, '::1'),
+(11, '2013-09-04', 2, '', '1.3.2.1', 'Pelador de Cítricos', 12.00, 0.00, '4 peladores a $3.00 c/u', NULL, NULL, NULL, 'administrador', NULL, '::1'),
+(12, '2013-09-04', 2, '', '1.3.2.1', 'Pelador y cortador de Piña', 20.00, 0.00, '4 unidades a $5.00 c/u', NULL, NULL, NULL, 'administrador', NULL, '::1'),
+(13, '2013-09-04', 2, '', '1.3.2.1', 'Cocina eléctrica para Rosa de Jamaica', 80.00, 0.00, '2 unidades a $40.00 c/u', NULL, NULL, NULL, 'administrador', NULL, '::1'),
+(14, '2013-09-04', 2, '', '1.3.2.1', 'Olla para hervir', 14.00, 0.00, '2 unidades a $7.00 c/u.', NULL, NULL, NULL, 'administrador', NULL, '127.0.0.1'),
+(15, '2013-09-06', 2, '', '1.3.2.1', 'Exprimidor/Prensa de cítricos', 132.00, 0.00, '4 unidades a $33.00 c/u.', NULL, NULL, NULL, 'administrador', NULL, '127.0.0.1'),
+(16, '2013-09-06', 2, '', '1.3.2.1', 'Encorchadora', 116.50, 0.00, '1 unidad a $116.50', NULL, NULL, NULL, 'administrador', NULL, '127.0.0.1');
 
 --
 -- Disparadores `registro`
 --
-DROP TRIGGER IF EXISTS `log_delete_registro`;
-DELIMITER //
-CREATE TRIGGER `log_delete_registro` AFTER DELETE ON `registro`
- FOR EACH ROW BEGIN
+DELIMITER $$
+CREATE TRIGGER `log_delete_registro` AFTER DELETE ON `registro` FOR EACH ROW BEGIN
 		INSERT INTO `sic115`.`security_log` (`fecha`, `evento`, `user`, `ip`) VALUES (CONCAT_WS(' ',CURDATE(), CURTIME()), CONCAT_WS(' ','Se eliminó un registro en la tabla registro.'), USER(), CURRENT_USER());
     END
-//
+$$
 DELIMITER ;
-DROP TRIGGER IF EXISTS `log_insert_registro`;
-DELIMITER //
-CREATE TRIGGER `log_insert_registro` AFTER INSERT ON `registro`
- FOR EACH ROW BEGIN
+DELIMITER $$
+CREATE TRIGGER `log_insert_registro` AFTER INSERT ON `registro` FOR EACH ROW BEGIN
 		INSERT INTO `sic115`.`security_log` (`fecha`, `evento`, `user`, `ip`) VALUES (CONCAT_WS(' ',CURDATE(), CURTIME()), CONCAT_WS(' ','Se insertó un nuevo registro en la tabla registro.'), USER(), CURRENT_USER());
     END
-//
+$$
 DELIMITER ;
-DROP TRIGGER IF EXISTS `log_update_registro`;
-DELIMITER //
-CREATE TRIGGER `log_update_registro` AFTER UPDATE ON `registro`
- FOR EACH ROW BEGIN
+DELIMITER $$
+CREATE TRIGGER `log_update_registro` AFTER UPDATE ON `registro` FOR EACH ROW BEGIN
 		INSERT INTO `sic115`.`security_log` (`fecha`, `evento`, `user`, `ip`) VALUES (CONCAT_WS(' ',CURDATE(), CURTIME()), CONCAT_WS(' ','Se actualizó un registro en la tabla registro.'), USER(), CURRENT_USER());
     END
-//
+$$
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -528,81 +477,437 @@ DELIMITER ;
 -- Estructura de tabla para la tabla `security_log`
 --
 
-CREATE TABLE IF NOT EXISTS `security_log` (
-  `id_evento` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `security_log` (
+  `id_evento` int(11) NOT NULL,
   `fecha` datetime NOT NULL,
-  `evento` varchar(255) COLLATE latin1_general_ci NOT NULL,
-  `user` varchar(50) COLLATE latin1_general_ci NOT NULL,
-  `ip` varchar(20) COLLATE latin1_general_ci NOT NULL,
-  PRIMARY KEY (`id_evento`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `subcuentas`
---
-
-CREATE TABLE IF NOT EXISTS `subcuentas` (
-  `codigo_subcuenta` varchar(20) COLLATE latin1_general_ci NOT NULL,
-  `cuenta` varchar(20) COLLATE latin1_general_ci NOT NULL,
-  `nombre_subcuenta` varchar(50) COLLATE latin1_general_ci NOT NULL,
-  `descripcion` varchar(255) COLLATE latin1_general_ci DEFAULT NULL,
-  `saldo_debe` double NOT NULL,
-  `saldo_haber` double NOT NULL,
-  PRIMARY KEY (`codigo_subcuenta`),
-  KEY `cuenta` (`cuenta`)
+  `evento` varchar(255) NOT NULL,
+  `user` varchar(50) NOT NULL,
+  `ip` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
--- Volcado de datos para la tabla `subcuentas`
+-- Volcado de datos para la tabla `security_log`
 --
 
-INSERT INTO `subcuentas` (`codigo_subcuenta`, `cuenta`, `nombre_subcuenta`, `descripcion`, `saldo_debe`, `saldo_haber`) VALUES
-('1.2.1.1.1', '1.2.1.1', 'Naranja', 'Cuenta para registrar los movimientos del activo "Naranja"', 0, 0),
-('1.2.1.1.2', '1.2.1.1', 'Mandarina', 'Cuenta para registrar los movimientos del activo "Mandarina"', 0, 0),
-('1.2.1.1.3', '1.2.1.1', 'Piña', 'Cuenta para registrar los movimientos del activo "Piña"', 0, 0),
-('1.2.1.1.4', '1.2.1.1', 'Marañón', 'Cuenta para registrar los movimientos del activo "Marañón"', 0, 0),
-('1.2.1.1.5', '1.2.1.1', 'Coco', 'Cuenta para registrar los movimientos del activo "Coco"', 0, 0),
-('1.2.1.1.6', '1.2.1.1', 'Rosa de Jamaica', 'Cuenta para registrar los movimientos del activo "Rosa de Jamaica"', 0, 0),
-('1.2.1.2.1', '1.2.1.2', 'Azúcar', 'Cuenta para registrar los movimientos del activo "Azucar"', 0, 0),
-('1.2.1.2.2', '1.2.1.2', 'Levadura', 'Cuenta para registrar los movimientos del activo "Levadura"', 0, 0),
-('1.2.1.2.3', '1.2.1.2', 'Cápsulas de Seguridad', 'Cuenta para registrar los movimientos del activo "Cápsulas de Seguridad"', 0, 0),
-('1.2.1.2.4', '1.2.1.2', 'Etiquetas', 'Cuenta para registrar los movimientos del activo "Etiquetas"', 0, 0),
-('1.2.1.2.5', '1.2.1.2', 'Cajas', 'Cuenta para registrar los movimientos del activo "Cajas"', 0, 0),
-('4.1.2.2.1', '4.1.2.2', 'Aguinaldo', 'Pago equivalente a una quincena de trabajo. El aguinaldo se le dará a un empleado que tenga más de 1 año laborando para la empresa.', 0, 0),
-('4.1.2.2.2', '4.1.2.2', 'Vacaciones', 'Pago de las vacaciones del empleado.', 0, 0);
-
---
--- Disparadores `subcuentas`
---
-DROP TRIGGER IF EXISTS `log_delete_subcuentas`;
-DELIMITER //
-CREATE TRIGGER `log_delete_subcuentas` AFTER DELETE ON `subcuentas`
- FOR EACH ROW BEGIN
-		INSERT INTO `sic115`.`security_log` (`fecha`, `evento`, `user`, `ip`) 
-		VALUES (CONCAT_WS(' ',CURDATE(), CURTIME()), CONCAT_WS(' ','Se eliminó un registro en la tabla subcuentas. El registro eliminado es:',old.codigo_subcuenta), USER(), CURRENT_USER());
-    END
-//
-DELIMITER ;
-DROP TRIGGER IF EXISTS `log_insert_subcuentas`;
-DELIMITER //
-CREATE TRIGGER `log_insert_subcuentas` AFTER INSERT ON `subcuentas`
- FOR EACH ROW BEGIN
-		INSERT INTO `sic115`.`security_log` (`fecha`, `evento`, `user`, `ip`) 
-		VALUES (concat_ws(' ',CURDATE(), curtime()), concat_WS(' ','Se insertó un nuevo registro en la tabla subcuentas. El valor es:',new.codigo_subcuenta), user(), current_user());
-    END
-//
-DELIMITER ;
-DROP TRIGGER IF EXISTS `log_update_subcuentas`;
-DELIMITER //
-CREATE TRIGGER `log_update_subcuentas` AFTER UPDATE ON `subcuentas`
- FOR EACH ROW BEGIN
-		INSERT INTO `sic115`.`security_log` (`fecha`, `evento`, `user`, `ip`) 
-		VALUES (CONCAT_WS(' ',CURDATE(), CURTIME()), CONCAT_WS(' ','Se modificó un registro en la tabla subcuentas.'), USER(), CURRENT_USER());
-    END
-//
-DELIMITER ;
+INSERT INTO `security_log` (`id_evento`, `fecha`, `evento`, `user`, `ip`) VALUES
+(1, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(2, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(3, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(4, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(5, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(6, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(7, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(8, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(9, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(10, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(11, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(12, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(13, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(14, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(15, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(16, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(17, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(18, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(19, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(20, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(21, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(22, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(23, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(24, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(25, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(26, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(27, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(28, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(29, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(30, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(31, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(32, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(33, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(34, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(35, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(36, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(37, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(38, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(39, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(40, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(41, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(42, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(43, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(44, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(45, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(46, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(47, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(48, '2026-06-11 18:48:07', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(49, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(50, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(51, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(52, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(53, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(54, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(55, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(56, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(57, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(58, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(59, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(60, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(61, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(62, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(63, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(64, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(65, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(66, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(67, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(68, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(69, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(70, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(71, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(72, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(73, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(74, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(75, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(76, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(77, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(78, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(79, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(80, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(81, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(82, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(83, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(84, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(85, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(86, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(87, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(88, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(89, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(90, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(91, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(92, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(93, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(94, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(95, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(96, '2026-06-11 18:53:23', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(97, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(98, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(99, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(100, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(101, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(102, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(103, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(104, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(105, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(106, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(107, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(108, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(109, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(110, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(111, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(112, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(113, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(114, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(115, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(116, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(117, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(118, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(119, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(120, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(121, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(122, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(123, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(124, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(125, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(126, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(127, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(128, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(129, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(130, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(131, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(132, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(133, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(134, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(135, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(136, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(137, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(138, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(139, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(140, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(141, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(142, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(143, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(144, '2026-06-13 19:20:55', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(145, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(146, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(147, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(148, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(149, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(150, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(151, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(152, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(153, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(154, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(155, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(156, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(157, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(158, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(159, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(160, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(161, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(162, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(163, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(164, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(165, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(166, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(167, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(168, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(169, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(170, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(171, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(172, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(173, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(174, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(175, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(176, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(177, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(178, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(179, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(180, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(181, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(182, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(183, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(184, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(185, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(186, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(187, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(188, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(189, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(190, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(191, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(192, '2026-06-13 19:58:51', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(193, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(194, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(195, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(196, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(197, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(198, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(199, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(200, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(201, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(202, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(203, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(204, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(205, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(206, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(207, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(208, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(209, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(210, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(211, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(212, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(213, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(214, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(215, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(216, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(217, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(218, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(219, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(220, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(221, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(222, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(223, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(224, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(225, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(226, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(227, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(228, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(229, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(230, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(231, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(232, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(233, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(234, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(235, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(236, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(237, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(238, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(239, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(240, '2026-06-13 20:08:48', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(241, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(242, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(243, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(244, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(245, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(246, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(247, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(248, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(249, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(250, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(251, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(252, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(253, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(254, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(255, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(256, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(257, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(258, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(259, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(260, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(261, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(262, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(263, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(264, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(265, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(266, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(267, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(268, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(269, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(270, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(271, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(272, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(273, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(274, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(275, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(276, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(277, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(278, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(279, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(280, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(281, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(282, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(283, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(284, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(285, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(286, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(287, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(288, '2026-06-13 20:24:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(289, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(290, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(291, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(292, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(293, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(294, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(295, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(296, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(297, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(298, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(299, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(300, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(301, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(302, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(303, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(304, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(305, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(306, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(307, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(308, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(309, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(310, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(311, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(312, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(313, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(314, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(315, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(316, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(317, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(318, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(319, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(320, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(321, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(322, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(323, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(324, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(325, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(326, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(327, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(328, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(329, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(330, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(331, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(332, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(333, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(334, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(335, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(336, '2026-06-13 20:27:17', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(337, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(338, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(339, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(340, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(341, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(342, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(343, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(344, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(345, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(346, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(347, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(348, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(349, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(350, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(351, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(352, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(353, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(354, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(355, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(356, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(357, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(358, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(359, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(360, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(361, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(362, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(363, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(364, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(365, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(366, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(367, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(368, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(369, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(370, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(371, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(372, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(373, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(374, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(375, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(376, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(377, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(378, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(379, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(380, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(381, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(382, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(383, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(384, '2026-06-13 20:37:05', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(385, '2026-06-13 20:47:58', 'Se eliminó un registro en la tabla cuentas. El registro eliminado es: 1.1.1.1', 'root@localhost', 'root@localhost'),
+(386, '2026-06-13 20:48:25', 'Se eliminó un registro en la tabla cuentas. El registro eliminado es: 1.2.2.1', 'root@localhost', 'root@localhost'),
+(387, '2026-06-13 20:48:28', 'Se eliminó un registro en la tabla cuentas. El registro eliminado es: 1.2.2.2', 'root@localhost', 'root@localhost'),
+(388, '2026-06-13 20:48:34', 'Se eliminó un registro en la tabla cuentas. El registro eliminado es: 1.2.2.3', 'root@localhost', 'root@localhost'),
+(389, '2026-06-13 20:48:37', 'Se eliminó un registro en la tabla cuentas. El registro eliminado es: 1.2.2.4', 'root@localhost', 'root@localhost'),
+(390, '2026-06-13 20:48:38', 'Se eliminó un registro en la tabla cuentas. El registro eliminado es: 1.2.2.5', 'root@localhost', 'root@localhost'),
+(391, '2026-06-13 20:48:41', 'Se eliminó un registro en la tabla cuentas. El registro eliminado es: 1.2.2.6', 'root@localhost', 'root@localhost'),
+(392, '2026-06-13 20:48:43', 'Se eliminó un registro en la tabla cuentas. El registro eliminado es: 1.3.2.1', 'root@localhost', 'root@localhost'),
+(393, '2026-06-13 20:48:45', 'Se eliminó un registro en la tabla cuentas. El registro eliminado es: 1.3.5.1', 'root@localhost', 'root@localhost'),
+(394, '2026-06-13 20:48:47', 'Se eliminó un registro en la tabla cuentas. El registro eliminado es: 1.3.6.1', 'root@localhost', 'root@localhost'),
+(395, '2026-06-13 20:48:49', 'Se eliminó un registro en la tabla cuentas. El registro eliminado es: 4.1.1.1', 'root@localhost', 'root@localhost'),
+(396, '2026-06-13 20:48:52', 'Se eliminó un registro en la tabla cuentas. El registro eliminado es: 4.1.1.2', 'root@localhost', 'root@localhost'),
+(397, '2026-06-13 20:48:54', 'Se eliminó un registro en la tabla cuentas. El registro eliminado es: 4.1.2.1', 'root@localhost', 'root@localhost'),
+(398, '2026-06-13 20:48:59', 'Se eliminó un registro en la tabla cuentas. El registro eliminado es: 4.1.2.3', 'root@localhost', 'root@localhost'),
+(399, '2026-06-13 20:49:01', 'Se eliminó un registro en la tabla cuentas. El registro eliminado es: 4.1.3.1', 'root@localhost', 'root@localhost'),
+(400, '2026-06-13 20:49:08', 'Se eliminó un registro en la tabla cuentas. El registro eliminado es: 4.1.3.2', 'root@localhost', 'root@localhost'),
+(401, '2026-06-13 20:49:20', 'Se eliminó un registro en la tabla cuentas. El registro eliminado es: 4.1.3.3', 'root@localhost', 'root@localhost'),
+(402, '2026-06-13 20:49:22', 'Se eliminó un registro en la tabla cuentas. El registro eliminado es: 4.1.3.4', 'root@localhost', 'root@localhost'),
+(403, '2026-06-13 20:49:25', 'Se eliminó un registro en la tabla cuentas. El registro eliminado es: 4.1.4.2', 'root@localhost', 'root@localhost'),
+(404, '2026-06-13 20:49:27', 'Se eliminó un registro en la tabla cuentas. El registro eliminado es: 4.1.4.1', 'root@localhost', 'root@localhost'),
+(405, '2026-06-13 20:49:47', 'Se eliminó un registro en la tabla subcuentas. El registro eliminado es: 1.2.1.1.1', 'root@localhost', 'root@localhost'),
+(406, '2026-06-13 20:50:04', 'Se eliminó un registro en la tabla cuentas. El registro eliminado es: 4.1.2.2', 'root@localhost', 'root@localhost'),
+(407, '2026-06-13 20:50:06', 'Se eliminó un registro en la tabla cuentas. El registro eliminado es: 1.2.1.2', 'root@localhost', 'root@localhost'),
+(408, '2026-06-13 20:50:08', 'Se eliminó un registro en la tabla cuentas. El registro eliminado es: 1.2.1.1', 'root@localhost', 'root@localhost'),
+(409, '2026-06-13 20:52:43', 'Se insertó un nuevo registro en la tabla cuentas. El valor es: 1.1', 'root@localhost', 'root@localhost'),
+(410, '2026-06-13 20:54:19', 'Se insertó un nuevo registro en la tabla cuentas. El valor es: 1.2', 'root@localhost', 'root@localhost'),
+(411, '2026-06-13 20:55:52', 'Se insertó un nuevo registro en la tabla cuentas. El valor es: 1.3', 'root@localhost', 'root@localhost'),
+(412, '2026-06-13 20:56:45', 'Se insertó un nuevo registro en la tabla cuentas. El valor es: 1.4', 'root@localhost', 'root@localhost'),
+(413, '2026-06-13 20:57:19', 'Se insertó un nuevo registro en la tabla cuentas. El valor es: 2.1', 'root@localhost', 'root@localhost'),
+(414, '2026-06-13 20:57:54', 'Se insertó un nuevo registro en la tabla cuentas. El valor es: 2.2', 'root@localhost', 'root@localhost'),
+(415, '2026-06-13 20:58:38', 'Se insertó un nuevo registro en la tabla cuentas. El valor es: 3.1', 'root@localhost', 'root@localhost'),
+(416, '2026-06-13 21:00:14', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(417, '2026-06-13 21:00:24', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(418, '2026-06-13 21:00:33', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost');
 
 -- --------------------------------------------------------
 
@@ -610,13 +915,11 @@ DELIMITER ;
 -- Estructura de tabla para la tabla `subgrupos`
 --
 
-CREATE TABLE IF NOT EXISTS `subgrupos` (
-  `codigo_subgrupo` varchar(20) COLLATE latin1_general_ci NOT NULL,
-  `nombre_subgrupo` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
-  `descripcion` varchar(255) COLLATE latin1_general_ci DEFAULT NULL,
-  `grupo` varchar(20) COLLATE latin1_general_ci DEFAULT NULL,
-  PRIMARY KEY (`codigo_subgrupo`),
-  KEY `grupo` (`grupo`)
+CREATE TABLE `subgrupos` (
+  `codigo_subgrupo` varchar(20) NOT NULL,
+  `nombre_subgrupo` varchar(50) DEFAULT NULL,
+  `descripcion` varchar(255) DEFAULT NULL,
+  `grupo` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
@@ -651,13 +954,12 @@ INSERT INTO `subgrupos` (`codigo_subgrupo`, `nombre_subgrupo`, `descripcion`, `g
 -- Estructura de tabla para la tabla `usuario`
 --
 
-CREATE TABLE IF NOT EXISTS `usuario` (
+CREATE TABLE `usuario` (
   `usuario` char(15) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `password` varchar(40) NOT NULL,
   `fecha` date NOT NULL,
-  `tipo` varchar(25) NOT NULL,
-  PRIMARY KEY (`usuario`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `tipo` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Volcado de datos para la tabla `usuario`
@@ -674,8 +976,9 @@ INSERT INTO `usuario` (`usuario`, `password`, `fecha`, `tipo`) VALUES
 
 --
 -- Estructura Stand-in para la vista `ver_subcuentas`
+-- (Véase abajo para la vista actual)
 --
-CREATE TABLE IF NOT EXISTS `ver_subcuentas` (
+CREATE TABLE `ver_subcuentas` (
 `codigo_clasificacion` int(11)
 ,`codigo_grupo` varchar(10)
 ,`codigo_subgrupo` varchar(20)
@@ -684,6 +987,7 @@ CREATE TABLE IF NOT EXISTS `ver_subcuentas` (
 ,`naturaleza` varchar(20)
 ,`nombre_subcuenta` varchar(50)
 );
+
 -- --------------------------------------------------------
 
 --
@@ -691,7 +995,161 @@ CREATE TABLE IF NOT EXISTS `ver_subcuentas` (
 --
 DROP TABLE IF EXISTS `ver_subcuentas`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ver_subcuentas` AS (select `a`.`codigo_clasificacion` AS `codigo_clasificacion`,`b`.`codigo_grupo` AS `codigo_grupo`,`c`.`codigo_subgrupo` AS `codigo_subgrupo`,`d`.`codigo_cuenta` AS `codigo_cuenta`,`e`.`codigo_subcuenta` AS `codigo_subcuenta`,`e`.`naturaleza` AS `naturaleza`,`e`.`nombre_subcuenta` AS `nombre_subcuenta` from ((((`clasificaciones` `a` join `catalogo_grupos` `b`) join `catalogo_subgrupos` `c`) join `catalogo_cuentas` `d`) join `catalogo_subcuentas` `e`) where ((`e`.`cuenta` = `d`.`codigo_cuenta`) and (`d`.`subgrupo` = `c`.`codigo_subgrupo`) and (`c`.`grupo` = `b`.`codigo_grupo`) and (`b`.`clasificacion` = `a`.`codigo_clasificacion`)));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ver_subcuentas`  AS   (select `a`.`codigo_clasificacion` AS `codigo_clasificacion`,`b`.`codigo_grupo` AS `codigo_grupo`,`c`.`codigo_subgrupo` AS `codigo_subgrupo`,`d`.`codigo_cuenta` AS `codigo_cuenta`,`e`.`codigo_subcuenta` AS `codigo_subcuenta`,`e`.`naturaleza` AS `naturaleza`,`e`.`nombre_subcuenta` AS `nombre_subcuenta` from ((((`clasificaciones` `a` join `catalogo_grupos` `b`) join `catalogo_subgrupos` `c`) join `catalogo_cuentas` `d`) join `catalogo_subcuentas` `e`) where `e`.`cuenta` = `d`.`codigo_cuenta` and `d`.`subgrupo` = `c`.`codigo_subgrupo` and `c`.`grupo` = `b`.`codigo_grupo` and `b`.`clasificacion` = `a`.`codigo_clasificacion`)  ;
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `anio_contable`
+--
+ALTER TABLE `anio_contable`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `cargos_empleados`
+--
+ALTER TABLE `cargos_empleados`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `catalogo_clasificaciones`
+--
+ALTER TABLE `catalogo_clasificaciones`
+  ADD PRIMARY KEY (`codigo_clasificacion`);
+
+--
+-- Indices de la tabla `catalogo_cuentas`
+--
+ALTER TABLE `catalogo_cuentas`
+  ADD PRIMARY KEY (`codigo_cuenta`),
+  ADD KEY `subgrupo` (`subgrupo`);
+
+--
+-- Indices de la tabla `catalogo_grupos`
+--
+ALTER TABLE `catalogo_grupos`
+  ADD PRIMARY KEY (`codigo_grupo`),
+  ADD KEY `clasificacion` (`clasificacion`);
+
+--
+-- Indices de la tabla `catalogo_subcuentas`
+--
+ALTER TABLE `catalogo_subcuentas`
+  ADD PRIMARY KEY (`codigo_subcuenta`),
+  ADD KEY `cuenta` (`cuenta`);
+
+--
+-- Indices de la tabla `catalogo_subgrupos`
+--
+ALTER TABLE `catalogo_subgrupos`
+  ADD PRIMARY KEY (`codigo_subgrupo`);
+
+--
+-- Indices de la tabla `clasificaciones`
+--
+ALTER TABLE `clasificaciones`
+  ADD PRIMARY KEY (`codigo_clasificacion`);
+
+--
+-- Indices de la tabla `cuentas`
+--
+ALTER TABLE `cuentas`
+  ADD PRIMARY KEY (`codigo_cuenta`),
+  ADD KEY `subgrupo` (`subgrupo`);
+
+--
+-- Indices de la tabla `empleados`
+--
+ALTER TABLE `empleados`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `codigo_empleado` (`codigo_empleado`);
+
+--
+-- Indices de la tabla `grupos`
+--
+ALTER TABLE `grupos`
+  ADD PRIMARY KEY (`codigo_grupo`),
+  ADD KEY `clasificacion` (`clasificacion`);
+
+--
+-- Indices de la tabla `iva`
+--
+ALTER TABLE `iva`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `mayor`
+--
+ALTER TABLE `mayor`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `cuenta` (`cuenta`);
+
+--
+-- Indices de la tabla `registro`
+--
+ALTER TABLE `registro`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `security_log`
+--
+ALTER TABLE `security_log`
+  ADD PRIMARY KEY (`id_evento`);
+
+--
+-- Indices de la tabla `subgrupos`
+--
+ALTER TABLE `subgrupos`
+  ADD PRIMARY KEY (`codigo_subgrupo`),
+  ADD KEY `grupo` (`grupo`);
+
+--
+-- Indices de la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  ADD PRIMARY KEY (`usuario`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `anio_contable`
+--
+ALTER TABLE `anio_contable`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `cargos_empleados`
+--
+ALTER TABLE `cargos_empleados`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT de la tabla `empleados`
+--
+ALTER TABLE `empleados`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT de la tabla `mayor`
+--
+ALTER TABLE `mayor`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `registro`
+--
+ALTER TABLE `registro`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT de la tabla `security_log`
+--
+ALTER TABLE `security_log`
+  MODIFY `id_evento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=419;
 
 --
 -- Restricciones para tablas volcadas
@@ -728,16 +1186,11 @@ ALTER TABLE `grupos`
   ADD CONSTRAINT `grupos_ibfk_1` FOREIGN KEY (`clasificacion`) REFERENCES `clasificaciones` (`codigo_clasificacion`);
 
 --
--- Filtros para la tabla `subcuentas`
---
-ALTER TABLE `subcuentas`
-  ADD CONSTRAINT `subcuentas_ibfk_1` FOREIGN KEY (`cuenta`) REFERENCES `cuentas` (`codigo_cuenta`);
-
---
 -- Filtros para la tabla `subgrupos`
 --
 ALTER TABLE `subgrupos`
   ADD CONSTRAINT `subgrupos_ibfk_1` FOREIGN KEY (`grupo`) REFERENCES `grupos` (`codigo_grupo`);
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
