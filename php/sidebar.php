@@ -53,7 +53,6 @@
 			<div class="panel-body" id="sb">
 				<div class="list-group text-right">
 					<a href="balance-comprobacion.php" class="list-group-item">&#0171; Balance de Comprobación</a>
-					<a href="estado-resultados.php" class="list-group-item">&#0171; Estado de Resultados</a>
 					<a href="balance-general.php" class="list-group-item">&#0171; Balance General</a>
 				</div>
 			</div>

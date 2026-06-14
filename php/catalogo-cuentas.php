@@ -174,41 +174,7 @@
                             ?>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <br>
-                            <h3><span class="label label-danger">Resultados</span></h3>
-                            <?php
-                                if(!isset($conexion)){
-                                    include("conexion.php");
-                                } 
-                                $consulta = "SELECT * FROM cuentas WHERE codigo_cuenta LIKE '4%'";
-
-                                $ejecutar_consulta = $conexion->query($consulta);
-
-                                echo "<div>";
-                                echo "<table class='table table-hover table-condensed table-bordered text-left'>";
-                                echo "<thead>";
-                                echo "<tr>";
-                                echo "<th width='110px' class='text-center'>Código Cuenta</th>";
-                                echo "<th class='text-center'>Nombre de la Cuenta</th>";
-                                echo "</tr>";
-                                echo "</thead>";
-                                echo "<tbody>";
-
-                                while($registro = $ejecutar_consulta->fetch_assoc()){
-                                    echo "<tr>";
-                                    echo "<td class='text-right'>".utf8_encode($registro["codigo_cuenta"])."</td>";
-                                    echo "<td>".utf8_encode($registro["nombre_cuenta"])."</td>";
-                                    echo "</tr>";
-                                }
-                                
-                                echo "</tbody>";
-                                echo "</table>";
-                                echo "</div>";
-                            ?>
-                        </div>
-                    </div>
+            
                 </div>
 
                 <hr>

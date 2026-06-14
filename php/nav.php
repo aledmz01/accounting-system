@@ -36,7 +36,6 @@
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Estados Financieros <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li><a href="balance-comprobacion.php"> ● &nbsp;Balance de Comprobación</a></li>
-						<li><a href="estado-resultados.php"> ● &nbsp;Estado de Resultados</a></li>
 						<li><a href="balance-general.php"> ● &nbsp;Balance General</a></li>
 
 					</ul>
