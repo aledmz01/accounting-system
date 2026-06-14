@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-06-2026 a las 05:03:21
+-- Tiempo de generación: 14-06-2026 a las 08:06:38
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -267,9 +267,9 @@ CREATE TABLE `cuentas` (
 --
 
 INSERT INTO `cuentas` (`codigo_cuenta`, `subgrupo`, `nombre_cuenta`, `tiene_subcuenta`, `descripcion_cuenta`, `saldo_debe`, `saldo_haber`) VALUES
-('1.1', NULL, 'Caja', 'No', NULL, 2500, 0),
+('1.1', NULL, 'Caja', 'No', NULL, 2000, 0),
 ('1.2', NULL, 'Banco', 'No', NULL, 1500, 0),
-('1.3', NULL, 'Inventario de mercadería', 'No', NULL, 4000, 0),
+('1.3', NULL, 'Inventario de mercadería', 'No', NULL, 309.75, 0),
 ('1.4', NULL, 'Mobiliario y equipos', 'No', NULL, 1000, 0),
 ('2.1', NULL, 'Proveedores', 'No', NULL, 0, 1500),
 ('2.2', NULL, 'Préstamo bancario', 'No', NULL, 0, 2000),
@@ -371,6 +371,34 @@ INSERT INTO `grupos` (`codigo_grupo`, `nombre_grupo`, `descripcion`, `clasificac
 ('3.2', 'Capital', 'capital', 3),
 ('4.1', 'Costos', NULL, 4),
 ('4.2', 'Ingresos', NULL, 4);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `inventario`
+--
+
+CREATE TABLE `inventario` (
+  `id_inventario` int(10) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `cantidad` int(6) NOT NULL,
+  `precio` decimal(8,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Volcado de datos para la tabla `inventario`
+--
+
+INSERT INTO `inventario` (`id_inventario`, `nombre`, `cantidad`, `precio`) VALUES
+(1, 'Coca Cola 600ml', 55, 1.00),
+(2, 'Pepsi 600ml', 40, 0.95),
+(3, 'Leche Entera', 30, 1.50),
+(4, 'Arroz 1kg', 25, 1.25),
+(5, 'Azucar 1kg', 20, 1.10),
+(6, 'Frijoles 1lb', 35, 0.90),
+(7, 'Galletas Oreo', 40, 0.75),
+(8, 'Pan de Molde', 15, 1.80),
+(9, 'Jugo Del Valle', 25, 1.20);
 
 -- --------------------------------------------------------
 
@@ -907,7 +935,13 @@ INSERT INTO `security_log` (`id_evento`, `fecha`, `evento`, `user`, `ip`) VALUES
 (415, '2026-06-13 20:58:38', 'Se insertó un nuevo registro en la tabla cuentas. El valor es: 3.1', 'root@localhost', 'root@localhost'),
 (416, '2026-06-13 21:00:14', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
 (417, '2026-06-13 21:00:24', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
-(418, '2026-06-13 21:00:33', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost');
+(418, '2026-06-13 21:00:33', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(419, '2026-06-13 21:06:24', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(420, '2026-06-13 21:06:45', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(421, '2026-06-14 00:00:27', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(422, '2026-06-14 00:00:36', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(423, '2026-06-14 00:00:41', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(424, '2026-06-14 00:05:46', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost');
 
 -- --------------------------------------------------------
 
@@ -1074,6 +1108,12 @@ ALTER TABLE `grupos`
   ADD KEY `clasificacion` (`clasificacion`);
 
 --
+-- Indices de la tabla `inventario`
+--
+ALTER TABLE `inventario`
+  ADD PRIMARY KEY (`id_inventario`);
+
+--
 -- Indices de la tabla `iva`
 --
 ALTER TABLE `iva`
@@ -1134,6 +1174,12 @@ ALTER TABLE `empleados`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
+-- AUTO_INCREMENT de la tabla `inventario`
+--
+ALTER TABLE `inventario`
+  MODIFY `id_inventario` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
 -- AUTO_INCREMENT de la tabla `mayor`
 --
 ALTER TABLE `mayor`
@@ -1149,7 +1195,7 @@ ALTER TABLE `registro`
 -- AUTO_INCREMENT de la tabla `security_log`
 --
 ALTER TABLE `security_log`
-  MODIFY `id_evento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=419;
+  MODIFY `id_evento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=425;
 
 --
 -- Restricciones para tablas volcadas
