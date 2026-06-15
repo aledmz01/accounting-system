@@ -81,7 +81,9 @@ ORDER BY nombre
                             <th>ID</th>
                             <th>Producto</th>
                             <th>Cantidad</th>
+                            <th>Costo ($)</th>
                             <th>Precio ($)</th>
+                            <th>Utilidad ($)</th>
                             <th>Total ($)</th>
                             <th>Acciones</th>
                         </tr>
@@ -93,15 +95,20 @@ ORDER BY nombre
 
                     while($registro = $ejecutar_consulta->fetch_assoc())
                     {
-                        $totalProducto = $registro['cantidad'] * $registro['precio'];
+                        // $totalProducto = $registro['cantidad'] * $registro['precio'];
+                        $totalProducto = $registro['cantidad'] * $registro['costo'];
                         $totalInventario += $totalProducto;
+                        $utilidad = $registro['precio'] - $registro['costo'];
 
                         echo "<tr>";
 
                         echo "<td>".$registro['id_inventario']."</td>";
                         echo "<td>".$registro['nombre']."</td>";
                         echo "<td>".$registro['cantidad']."</td>";
+
+                        echo "<td>".number_format($registro['costo'],2)."</td>";
                         echo "<td>".number_format($registro['precio'],2)."</td>";
+                        echo "<td>".number_format($utilidad,2)."</td>";
                         echo "<td>".number_format($totalProducto,2)."</td>";
 
                         echo "<td>";

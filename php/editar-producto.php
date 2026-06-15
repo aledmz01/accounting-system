@@ -29,12 +29,27 @@ $producto = $resultado->fetch_assoc();
 if($_POST){
 
     $nombre = trim($_POST["nombre"]);
+    $costo = (float)$_POST["costo"];
     $precio = (float)$_POST["precio"];
+
+    
+    if($precio <= $costo){
+
+    echo "
+    <script>
+        alert('El precio de venta debe ser mayor que el costo unitario.');
+        history.back();
+    </script>
+    ";
+
+    exit();
+}
 
     $conexion->query("
         UPDATE inventario
         SET
             nombre = '$nombre',
+            costo = '$costo',
             precio = '$precio'
         WHERE id_inventario = '$id'
     ");
@@ -92,7 +107,11 @@ if($_POST){
                     required
                     value="<?php echo $producto["precio"]; ?>"
                 >
+                            <small class="text-info">
+El precio de venta debe ser mayor que el costo unitario.
+</small>
             </div>
+
 
             <div class="form-group">
                 <label>Cantidad en Inventario</label>
@@ -105,12 +124,15 @@ if($_POST){
             </div>
 
             <div class="form-group">
-                <label>Costo Unitario</label>
+                <label>Costo Unitario $</label>
                 <input
                     type="number"
+                    step="0.01"
+                    min="0"
+                    name="costo"
                     class="form-control"
+                    required
                     value="<?php echo $producto["costo"]; ?>"
-                    readonly
                 >
             </div>
 

@@ -11,20 +11,37 @@ include("conexion.php");
 if($_POST){
 
     $nombre = $_POST["nombre"];
+    $costo = $_POST["costo"];
     $precio = $_POST["precio"];
+
+    if($precio <= $costo){
+
+    echo "
+    <script>
+        alert('El precio de venta debe ser mayor que el costo unitario.');
+        history.back();
+    </script>
+    ";
+
+    exit();
+}
 
     $consulta = "
     INSERT INTO Inventario
     (
         nombre,
         cantidad,
-        precio
+         costo,
+        precio,
+        activo
     )
     VALUES
     (
         '$nombre',
         0,
-        '$precio'
+        '$costo',
+        '$precio',
+        1
     )
     ";
 
@@ -84,7 +101,23 @@ if($_POST){
                     class="form-control"
                     min="0"
                     required>
+
+                    <small class="text-info">
+El precio de venta debe ser mayor que el costo unitario.
+</small>
             </div>
+            
+
+            <div class="form-group">
+    <label>Costo Unitario ($)</label>
+    <input
+        type="number"
+        step="0.01"
+        name="costo"
+        class="form-control"
+        min="0"
+        required>
+</div>
 
             <br>
 

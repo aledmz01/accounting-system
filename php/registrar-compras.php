@@ -40,7 +40,7 @@ ORDER BY nombre
         <div class="row">
 
 <div class="page-header">
-    <h3>Registrar Venta</h3>
+    <h3>Registrar compra</h3>
 </div>
 
 <?php

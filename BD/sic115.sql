@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-06-2026 a las 02:13:26
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Tiempo de generación: 15-06-2026 a las 04:14:31
+-- Versión del servidor: 9.7.0
+-- Versión de PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -39,9 +39,9 @@ DELIMITER ;
 --
 
 CREATE TABLE `catalogo_clasificaciones` (
-  `codigo_clasificacion` int(11) NOT NULL,
+  `codigo_clasificacion` int NOT NULL,
   `nombre` varchar(15) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `catalogo_clasificaciones`
@@ -64,7 +64,7 @@ CREATE TABLE `catalogo_cuentas` (
   `naturaleza` varchar(20) NOT NULL,
   `subgrupo` varchar(10) NOT NULL,
   `nombre_cuenta` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `catalogo_cuentas`
@@ -102,7 +102,7 @@ CREATE TABLE `catalogo_subgrupos` (
   `naturaleza` varchar(15) NOT NULL,
   `grupo` varchar(20) NOT NULL,
   `nombre_subgrupo` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `catalogo_subgrupos`
@@ -131,7 +131,7 @@ INSERT INTO `catalogo_subgrupos` (`codigo_subgrupo`, `naturaleza`, `grupo`, `nom
 --
 
 CREATE TABLE `clasificaciones` (
-  `codigo_clasificacion` int(11) NOT NULL,
+  `codigo_clasificacion` int NOT NULL,
   `nombre_clasificacion` varchar(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
@@ -152,13 +152,13 @@ INSERT INTO `clasificaciones` (`codigo_clasificacion`, `nombre_clasificacion`) V
 --
 
 CREATE TABLE `compras` (
-  `id_compra` int(11) NOT NULL,
+  `id_compra` int NOT NULL,
   `fecha` date NOT NULL,
   `concepto` varchar(255) DEFAULT NULL,
   `tipo_pago` enum('CONTADO','CREDITO') NOT NULL,
   `subtotal` decimal(10,2) NOT NULL,
   `total` decimal(10,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `compras`
@@ -170,7 +170,8 @@ INSERT INTO `compras` (`id_compra`, `fecha`, `concepto`, `tipo_pago`, `subtotal`
 (3, '2026-06-14', 'Compra de mercadería', 'CONTADO', 3.15, 3.15),
 (4, '2026-06-15', 'Compra de mercadería', 'CONTADO', 45.00, 45.00),
 (5, '2026-06-15', 'Compra de mercadería', 'CONTADO', 110.00, 110.00),
-(6, '2026-06-15', 'Compra de mercadería', 'CREDITO', 1.80, 1.80);
+(6, '2026-06-15', 'Compra de mercadería', 'CREDITO', 1.80, 1.80),
+(7, '2026-06-15', 'Compra de churros', 'CONTADO', 2.50, 2.50);
 
 -- --------------------------------------------------------
 
@@ -179,11 +180,11 @@ INSERT INTO `compras` (`id_compra`, `fecha`, `concepto`, `tipo_pago`, `subtotal`
 --
 
 CREATE TABLE `cuentas` (
-  `codigo_cuenta` varchar(20) NOT NULL,
-  `subgrupo` varchar(20) DEFAULT NULL,
-  `nombre_cuenta` varchar(50) NOT NULL,
-  `tiene_subcuenta` enum('Si','No') NOT NULL,
-  `descripcion_cuenta` varchar(255) DEFAULT NULL,
+  `codigo_cuenta` varchar(20) COLLATE latin1_general_ci NOT NULL,
+  `subgrupo` varchar(20) COLLATE latin1_general_ci DEFAULT NULL,
+  `nombre_cuenta` varchar(50) COLLATE latin1_general_ci NOT NULL,
+  `tiene_subcuenta` enum('Si','No') COLLATE latin1_general_ci NOT NULL,
+  `descripcion_cuenta` varchar(255) COLLATE latin1_general_ci DEFAULT NULL,
   `saldo_debe` double NOT NULL,
   `saldo_haber` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
@@ -193,16 +194,16 @@ CREATE TABLE `cuentas` (
 --
 
 INSERT INTO `cuentas` (`codigo_cuenta`, `subgrupo`, `nombre_cuenta`, `tiene_subcuenta`, `descripcion_cuenta`, `saldo_debe`, `saldo_haber`) VALUES
-('1.1', NULL, 'Caja', 'No', NULL, 117.6, 110),
+('1.1', NULL, 'Caja', 'No', NULL, 118.35, 112.5),
 ('1.2', NULL, 'Banco', 'No', NULL, 0, 0),
-('1.3', NULL, 'Inventario de mercadería', 'No', NULL, 111.8, 73.45000000000002),
+('1.3', NULL, 'Inventario de mercadería', 'No', NULL, 114.3, 73.95000000000002),
 ('1.4', NULL, 'Mobiliario y equipos', 'No', NULL, 0, 0),
 ('1.5', NULL, 'Cuentas por cobrar', 'No', NULL, 2.7, 0),
 ('2.1', NULL, 'Proveedores', 'No', NULL, 0, 1.8),
 ('2.2', NULL, 'Préstamo bancario', 'No', NULL, 0, 0),
 ('3.1', NULL, 'Capital social', 'No', NULL, 0, 0),
-('4.1', NULL, 'Ventas', 'No', NULL, 0, 120.3),
-('5.1', NULL, 'Costo de ventas', 'No', NULL, 73.45000000000002, 0),
+('4.1', NULL, 'Ventas', 'No', NULL, 0, 121.05),
+('5.1', NULL, 'Costo de ventas', 'No', NULL, 73.95000000000002, 0),
 ('5.2', NULL, 'Gastos administrativos', 'No', NULL, 0, 0);
 
 --
@@ -237,13 +238,13 @@ DELIMITER ;
 --
 
 CREATE TABLE `detalle_compras` (
-  `id_detalle` int(11) NOT NULL,
-  `id_compra` int(11) NOT NULL,
-  `id_inventario` int(11) NOT NULL,
-  `cantidad` int(11) NOT NULL,
+  `id_detalle` int NOT NULL,
+  `id_compra` int NOT NULL,
+  `id_inventario` int NOT NULL,
+  `cantidad` int NOT NULL,
   `costo_unitario` decimal(10,2) NOT NULL,
   `subtotal` decimal(10,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `detalle_compras`
@@ -256,7 +257,8 @@ INSERT INTO `detalle_compras` (`id_detalle`, `id_compra`, `id_inventario`, `cant
 (4, 3, 5, 1, 0.65, 0.65),
 (5, 4, 7, 100, 0.45, 45.00),
 (6, 5, 6, 200, 0.55, 110.00),
-(7, 6, 7, 4, 0.45, 1.80);
+(7, 6, 7, 4, 0.45, 1.80),
+(8, 7, 19, 25, 0.10, 2.50);
 
 -- --------------------------------------------------------
 
@@ -265,13 +267,13 @@ INSERT INTO `detalle_compras` (`id_detalle`, `id_compra`, `id_inventario`, `cant
 --
 
 CREATE TABLE `detalle_ventas` (
-  `id_detalle` int(11) NOT NULL,
-  `id_venta` int(11) NOT NULL,
-  `id_inventario` int(11) NOT NULL,
-  `cantidad` int(11) NOT NULL,
+  `id_detalle` int NOT NULL,
+  `id_venta` int NOT NULL,
+  `id_inventario` int NOT NULL,
+  `cantidad` int NOT NULL,
   `precio_unitario` decimal(10,2) NOT NULL,
   `subtotal` decimal(10,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `detalle_ventas`
@@ -301,7 +303,8 @@ INSERT INTO `detalle_ventas` (`id_detalle`, `id_venta`, `id_inventario`, `cantid
 (21, 19, 7, 1, 0.75, 0.75),
 (22, 20, 6, 124, 0.90, 111.60),
 (23, 21, 6, 3, 0.90, 2.70),
-(24, 22, 7, 7, 0.75, 5.25);
+(24, 22, 7, 7, 0.75, 5.25),
+(25, 23, 19, 5, 0.15, 0.75);
 
 -- --------------------------------------------------------
 
@@ -310,10 +313,10 @@ INSERT INTO `detalle_ventas` (`id_detalle`, `id_venta`, `id_inventario`, `cantid
 --
 
 CREATE TABLE `grupos` (
-  `codigo_grupo` varchar(10) NOT NULL,
-  `nombre_grupo` varchar(50) NOT NULL,
-  `descripcion` varchar(255) DEFAULT NULL,
-  `clasificacion` int(11) DEFAULT NULL
+  `codigo_grupo` varchar(10) COLLATE latin1_general_ci NOT NULL,
+  `nombre_grupo` varchar(50) COLLATE latin1_general_ci NOT NULL,
+  `descripcion` varchar(255) COLLATE latin1_general_ci DEFAULT NULL,
+  `clasificacion` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
@@ -338,13 +341,13 @@ INSERT INTO `grupos` (`codigo_grupo`, `nombre_grupo`, `descripcion`, `clasificac
 --
 
 CREATE TABLE `inventario` (
-  `id_inventario` int(11) NOT NULL,
+  `id_inventario` int NOT NULL,
   `nombre` varchar(100) NOT NULL,
-  `cantidad` int(11) NOT NULL,
-  `costo` decimal(8,2) NOT NULL DEFAULT 0.00,
+  `cantidad` int NOT NULL,
+  `costo` decimal(8,2) NOT NULL DEFAULT '0.00',
   `precio` decimal(8,2) NOT NULL,
-  `activo` tinyint(1) NOT NULL DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `activo` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `inventario`
@@ -352,16 +355,21 @@ CREATE TABLE `inventario` (
 
 INSERT INTO `inventario` (`id_inventario`, `nombre`, `cantidad`, `costo`, `precio`, `activo`) VALUES
 (1, 'Coca Cola 600ml', 0, 0.50, 1.00, 1),
-(2, 'Pepsi 600ml', 0, 0.55, 0.95, 1),
+(2, 'Pepsi 600ml', 0, 0.55, 1.10, 1),
 (3, 'Leche Entera', 0, 0.90, 1.50, 1),
 (4, 'Arroz 1kg', 0, 0.75, 1.35, 0),
 (5, 'Azucar 1kg', 0, 0.65, 1.10, 0),
-(6, 'Frijoles 1lb', 73, 0.55, 0.90, 1),
-(7, 'Galletas Oreo', 46, 0.45, 0.75, 1),
+(6, 'Frijoles 1lb', 73, 0.55, 0.95, 1),
+(7, 'Galletas Oreo', 46, 0.45, 0.80, 1),
 (8, 'Pan de Molde', 0, 1.20, 1.80, 1),
 (9, 'Jugo Del Valle', 0, 0.70, 1.20, 1),
-(13, 'churros', 0, 0.00, 0.15, 1),
-(14, 'soda', 0, 0.00, 1.10, 1);
+(13, 'churros', 0, 0.00, 0.25, 0),
+(14, 'soda', 0, 0.00, 1.10, 1),
+(15, 'chocolate', 0, 0.00, 5.10, 0),
+(16, 'conejo', 0, 0.00, 4.25, 1),
+(17, 'Churros', 0, 0.15, 0.25, 0),
+(18, 'Churros', 0, 0.10, 0.15, 0),
+(19, 'Churros', 20, 0.10, 0.15, 1);
 
 -- --------------------------------------------------------
 
@@ -370,9 +378,9 @@ INSERT INTO `inventario` (`id_inventario`, `nombre`, `cantidad`, `costo`, `preci
 --
 
 CREATE TABLE `mayor` (
-  `id` int(11) NOT NULL,
-  `cuenta` varchar(20) NOT NULL,
-  `nombre` varchar(50) DEFAULT NULL,
+  `id` int NOT NULL,
+  `cuenta` varchar(20) COLLATE latin1_general_ci NOT NULL,
+  `nombre` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
   `debe` double NOT NULL,
   `haber` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
@@ -384,21 +392,21 @@ CREATE TABLE `mayor` (
 --
 
 CREATE TABLE `registro` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `fecha` date NOT NULL,
-  `transaccion` int(11) NOT NULL,
-  `tipo` varchar(20) NOT NULL,
-  `cuenta` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `concepto` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `transaccion` int NOT NULL,
+  `tipo` varchar(20) COLLATE latin1_general_ci NOT NULL,
+  `cuenta` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `concepto` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
   `debe` decimal(18,2) DEFAULT NULL,
   `haber` decimal(18,2) DEFAULT NULL,
-  `descripcion` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `partida_doble` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `justificante` varchar(30) DEFAULT NULL,
+  `descripcion` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `partida_doble` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `justificante` varchar(30) COLLATE latin1_general_ci DEFAULT NULL,
   `fecha_modificacion` date DEFAULT NULL,
-  `usuario_creacion` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `usuario_modif` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `ip` varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL
+  `usuario_creacion` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `usuario_modif` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `ip` varchar(15) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
@@ -485,7 +493,13 @@ INSERT INTO `registro` (`id`, `fecha`, `transaccion`, `tipo`, `cuenta`, `concept
 (93, '2026-06-15', 26, 'VENTA', '1.1', 'Venta de mercadería', 5.25, 0.00, 'Venta registrada', NULL, NULL, NULL, 'administrador', NULL, '::1'),
 (94, '2026-06-15', 26, 'VENTA', '4.1', 'Venta de mercadería', 0.00, 5.25, 'Ingreso por ventas', NULL, NULL, NULL, 'administrador', NULL, '::1'),
 (95, '2026-06-15', 26, 'VENTA', '5.1', 'Venta de mercadería', 3.15, 0.00, 'Costo de mercadería vendida', NULL, NULL, NULL, 'administrador', NULL, '::1'),
-(96, '2026-06-15', 26, 'VENTA', '1.3', 'Venta de mercadería', 0.00, 3.15, 'Salida de inventario', NULL, NULL, NULL, 'administrador', NULL, '::1');
+(96, '2026-06-15', 26, 'VENTA', '1.3', 'Venta de mercadería', 0.00, 3.15, 'Salida de inventario', NULL, NULL, NULL, 'administrador', NULL, '::1'),
+(97, '2026-06-15', 27, 'COMPRA', '1.3', 'Compra de churros', 2.50, 0.00, 'Ingreso de mercadería', NULL, NULL, NULL, 'administrador', NULL, '::1'),
+(98, '2026-06-15', 27, 'COMPRA', '1.1', 'Compra de churros', 0.00, 2.50, 'Registro de compra', NULL, NULL, NULL, 'administrador', NULL, '::1'),
+(99, '2026-06-15', 28, 'VENTA', '1.1', 'Venta de mercadería', 0.75, 0.00, 'Venta registrada', NULL, NULL, NULL, 'administrador', NULL, '::1'),
+(100, '2026-06-15', 28, 'VENTA', '4.1', 'Venta de mercadería', 0.00, 0.75, 'Ingreso por ventas', NULL, NULL, NULL, 'administrador', NULL, '::1'),
+(101, '2026-06-15', 28, 'VENTA', '5.1', 'Venta de mercadería', 0.50, 0.00, 'Costo de mercadería vendida', NULL, NULL, NULL, 'administrador', NULL, '::1'),
+(102, '2026-06-15', 28, 'VENTA', '1.3', 'Venta de mercadería', 0.00, 0.50, 'Salida de inventario', NULL, NULL, NULL, 'administrador', NULL, '::1');
 
 --
 -- Disparadores `registro`
@@ -516,11 +530,11 @@ DELIMITER ;
 --
 
 CREATE TABLE `security_log` (
-  `id_evento` int(11) NOT NULL,
+  `id_evento` int NOT NULL,
   `fecha` datetime NOT NULL,
-  `evento` varchar(255) NOT NULL,
-  `user` varchar(50) NOT NULL,
-  `ip` varchar(20) NOT NULL
+  `evento` varchar(255) COLLATE latin1_general_ci NOT NULL,
+  `user` varchar(50) COLLATE latin1_general_ci NOT NULL,
+  `ip` varchar(20) COLLATE latin1_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
@@ -1261,7 +1275,19 @@ INSERT INTO `security_log` (`id_evento`, `fecha`, `evento`, `user`, `ip`) VALUES
 (730, '2026-06-14 17:52:20', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
 (731, '2026-06-14 17:52:20', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
 (732, '2026-06-14 17:52:20', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
-(733, '2026-06-14 17:52:20', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost');
+(733, '2026-06-14 17:52:20', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(734, '2026-06-14 19:45:13', 'Se insertó un nuevo registro en la tabla registro.', 'root@localhost', 'root@localhost'),
+(735, '2026-06-14 19:45:13', 'Se insertó un nuevo registro en la tabla registro.', 'root@localhost', 'root@localhost'),
+(736, '2026-06-14 19:45:13', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(737, '2026-06-14 19:45:13', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(738, '2026-06-14 19:45:30', 'Se insertó un nuevo registro en la tabla registro.', 'root@localhost', 'root@localhost'),
+(739, '2026-06-14 19:45:30', 'Se insertó un nuevo registro en la tabla registro.', 'root@localhost', 'root@localhost'),
+(740, '2026-06-14 19:45:30', 'Se insertó un nuevo registro en la tabla registro.', 'root@localhost', 'root@localhost'),
+(741, '2026-06-14 19:45:30', 'Se insertó un nuevo registro en la tabla registro.', 'root@localhost', 'root@localhost'),
+(742, '2026-06-14 19:45:30', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(743, '2026-06-14 19:45:30', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(744, '2026-06-14 19:45:30', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost'),
+(745, '2026-06-14 19:45:30', 'Se modificó un registro en la tabla cuentas.', 'root@localhost', 'root@localhost');
 
 -- --------------------------------------------------------
 
@@ -1270,10 +1296,10 @@ INSERT INTO `security_log` (`id_evento`, `fecha`, `evento`, `user`, `ip`) VALUES
 --
 
 CREATE TABLE `subgrupos` (
-  `codigo_subgrupo` varchar(20) NOT NULL,
-  `nombre_subgrupo` varchar(50) DEFAULT NULL,
-  `descripcion` varchar(255) DEFAULT NULL,
-  `grupo` varchar(20) DEFAULT NULL
+  `codigo_subgrupo` varchar(20) COLLATE latin1_general_ci NOT NULL,
+  `nombre_subgrupo` varchar(50) COLLATE latin1_general_ci DEFAULT NULL,
+  `descripcion` varchar(255) COLLATE latin1_general_ci DEFAULT NULL,
+  `grupo` varchar(20) COLLATE latin1_general_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
@@ -1309,11 +1335,11 @@ INSERT INTO `subgrupos` (`codigo_subgrupo`, `nombre_subgrupo`, `descripcion`, `g
 --
 
 CREATE TABLE `usuario` (
-  `usuario` char(15) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `usuario` char(15) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
   `password` varchar(40) NOT NULL,
   `fecha` date NOT NULL,
   `tipo` varchar(25) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `usuario`
@@ -1333,13 +1359,13 @@ INSERT INTO `usuario` (`usuario`, `password`, `fecha`, `tipo`) VALUES
 --
 
 CREATE TABLE `ventas` (
-  `id_venta` int(11) NOT NULL,
+  `id_venta` int NOT NULL,
   `total` decimal(10,2) DEFAULT NULL,
   `fecha` datetime DEFAULT NULL,
   `concepto` varchar(255) DEFAULT NULL,
   `tipo_pago` enum('CONTADO','CREDITO') NOT NULL DEFAULT 'CONTADO',
-  `subtotal` decimal(10,2) NOT NULL DEFAULT 0.00
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `subtotal` decimal(10,2) NOT NULL DEFAULT '0.00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `ventas`
@@ -1367,7 +1393,8 @@ INSERT INTO `ventas` (`id_venta`, `total`, `fecha`, `concepto`, `tipo_pago`, `su
 (19, 0.75, '2026-06-15 00:42:22', 'Venta de mercadería', 'CONTADO', 0.75),
 (20, 111.60, '2026-06-15 00:44:20', 'Venta de mercadería', 'CONTADO', 111.60),
 (21, 2.70, '2026-06-15 00:45:58', 'Venta de mercadería', 'CREDITO', 2.70),
-(22, 5.25, '2026-06-15 01:52:20', 'Venta de mercadería', 'CONTADO', 5.25);
+(22, 5.25, '2026-06-15 01:52:20', 'Venta de mercadería', 'CONTADO', 5.25),
+(23, 0.75, '2026-06-15 03:45:30', 'Venta de mercadería', 'CONTADO', 0.75);
 
 --
 -- Índices para tablas volcadas
@@ -1486,49 +1513,49 @@ ALTER TABLE `ventas`
 -- AUTO_INCREMENT de la tabla `compras`
 --
 ALTER TABLE `compras`
-  MODIFY `id_compra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_compra` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `detalle_compras`
 --
 ALTER TABLE `detalle_compras`
-  MODIFY `id_detalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_detalle` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `detalle_ventas`
 --
 ALTER TABLE `detalle_ventas`
-  MODIFY `id_detalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id_detalle` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT de la tabla `inventario`
 --
 ALTER TABLE `inventario`
-  MODIFY `id_inventario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_inventario` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de la tabla `mayor`
 --
 ALTER TABLE `mayor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `registro`
 --
 ALTER TABLE `registro`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
 
 --
 -- AUTO_INCREMENT de la tabla `security_log`
 --
 ALTER TABLE `security_log`
-  MODIFY `id_evento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=734;
+  MODIFY `id_evento` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=746;
 
 --
 -- AUTO_INCREMENT de la tabla `ventas`
 --
 ALTER TABLE `ventas`
-  MODIFY `id_venta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id_venta` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- Restricciones para tablas volcadas

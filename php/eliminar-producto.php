@@ -14,7 +14,8 @@ $id = (int)($_GET["id"] ?? 0);
 $res = $conexion->query("
 SELECT *
 FROM inventario
-WHERE id_inventario = '$id'
+WHERE activo = 1
+ORDER BY nombre
 ");
 
 if($res->num_rows == 0){
@@ -25,7 +26,8 @@ if($res->num_rows == 0){
 $producto = $res->fetch_assoc();
 
 if($producto["cantidad"] > 0){
-    header("Location: inventario.php");
+    header("Location: inventario.php?error=si&mensaje="
+        . urlencode("No puede desactivar un producto con existencias."));
     exit();
 }
 
