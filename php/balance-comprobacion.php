@@ -36,7 +36,7 @@
         					<thead>
 								<tr>
 									<th colspan="4">
-										<h2 class="text-center">Vinos Nonualcos y Cia. S.A</h2>
+										<h2 class="text-center">Mini Market El Ahorro</h2>
 										<p align="center">
 											<strong>Balance de Comprobación</strong>
 										</p>
