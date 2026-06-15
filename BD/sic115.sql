@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-06-2026 a las 01:58:19
+-- Tiempo de generación: 15-06-2026 a las 02:13:26
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -1368,24 +1368,6 @@ INSERT INTO `ventas` (`id_venta`, `total`, `fecha`, `concepto`, `tipo_pago`, `su
 (20, 111.60, '2026-06-15 00:44:20', 'Venta de mercadería', 'CONTADO', 111.60),
 (21, 2.70, '2026-06-15 00:45:58', 'Venta de mercadería', 'CREDITO', 2.70),
 (22, 5.25, '2026-06-15 01:52:20', 'Venta de mercadería', 'CONTADO', 5.25);
-
--- --------------------------------------------------------
-
---
--- Estructura Stand-in para la vista `ver_subcuentas`
--- (Véase abajo para la vista actual)
---
-CREATE TABLE `ver_subcuentas` (
-);
-
--- --------------------------------------------------------
-
---
--- Estructura para la vista `ver_subcuentas`
---
-DROP TABLE IF EXISTS `ver_subcuentas`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ver_subcuentas`  AS SELECT `a`.`codigo_clasificacion` AS `codigo_clasificacion`, `b`.`codigo_grupo` AS `codigo_grupo`, `c`.`codigo_subgrupo` AS `codigo_subgrupo`, `d`.`codigo_cuenta` AS `codigo_cuenta`, `e`.`codigo_subcuenta` AS `codigo_subcuenta`, `e`.`naturaleza` AS `naturaleza`, `e`.`nombre_subcuenta` AS `nombre_subcuenta` FROM ((((`clasificaciones` `a` join `catalogo_grupos` `b`) join `catalogo_subgrupos` `c`) join `catalogo_cuentas` `d`) join `catalogo_subcuentas` `e`) WHERE `e`.`cuenta` = `d`.`codigo_cuenta` AND `d`.`subgrupo` = `c`.`codigo_subgrupo` AND `c`.`grupo` = `b`.`codigo_grupo` AND `b`.`clasificacion` = `a`.`codigo_clasificacion` ;
 
 --
 -- Índices para tablas volcadas
